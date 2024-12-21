@@ -15,10 +15,13 @@ namespace MusicStoreApplication.Repository
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<TicketInShoppingCart> TicketInShoppingCarts { get; set; }
-        public DbSet<TicketInOrder> TicketInOrders { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Instrument> Instruments { get; set; }
+ 
         public DbSet<Album> Albums { get; set; }
-        public DbSet<Accessory> Accessories { get; set; }
+       
+
+        public DbSet<Artist> Artists { get; set; }
+        public DbSet<Track> Tracks { get; set; }
+        public DbSet<UserPlaylist> UserPlaylists { get; set; }
+
     }
 }

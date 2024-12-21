@@ -12,42 +12,37 @@ namespace MusicStore.Service.Implementation
 {
     public class TicketService : ITicketService
     {
-        private readonly IRepository<Ticket> _productRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IShoppingCartRepository _shoppingCartRepository;
+        private readonly IRepository<Ticket> _ticketRepository;
 
-        public TicketService(IRepository<Ticket> productRepository, IUserRepository userRepository)
+        public TicketService(IShoppingCartRepository shoppingCartRepository, IRepository<Ticket> ticketRepository)
         {
-            _productRepository = productRepository;
-            _userRepository = userRepository;
+            _shoppingCartRepository = shoppingCartRepository;
+            _ticketRepository = ticketRepository;
         }
 
-
-        public Ticket CreateNewProduct(string userId, Ticket product)
+        public void AddTicketToCart(string userId, Guid ticketId)
         {
-            var createdBy = _userRepository.Get(userId);
-            product.CreatedBy = createdBy;
-            return _productRepository.Insert(product);
+            var ticket = _ticketRepository.Get(ticketId);
+            if (ticket != null)
+            {
+                _shoppingCartRepository.AddTicketToCart(userId, ticket);
+            }
+            else
+            {
+                throw new Exception("Ticket not found");
+            }
         }
 
-        public Ticket DeleteProduct(Guid id)
+        public void RemoveTicketFromCart(string userId, Guid ticketId)
         {
-            var product_to_delete = this.GetProductById(id);
-            return _productRepository.Delete(product_to_delete);
+            _shoppingCartRepository.RemoveTicketFromCart(userId, ticketId);
         }
 
-        public Ticket GetProductById(Guid? id)
+        public IEnumerable<Ticket> GetTicketsInCart(string userId)
         {
-            return _productRepository.Get(id);
-        }
-
-        public List<Ticket> GetProducts()
-        {
-            return _productRepository.GetAll().ToList();
-        }
-
-        public Ticket UpdateProduct(Ticket product)
-        {
-           return _productRepository.Update(product);
+            var cart = _shoppingCartRepository.GetCartForUser(userId);
+            return cart.TicketInShoppingCarts.Select(ticketInCart => ticketInCart.Ticket);
         }
     }
 }

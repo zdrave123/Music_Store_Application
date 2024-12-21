@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace MusicStore.Domain.Domain
 {
-    public class Album : Product
+    public class Album : BaseEntity
     {
-        public string Artist { get; set; }
-        public string Genre { get; set; }
+        public string Title { get; set; } = string.Empty;
         public DateTime ReleaseDate { get; set; }
-        public string Format { get; set; }
+       
+        public Artist Artist { get; set; } = null!;
+        public ICollection<Track> Tracks { get; set; } = new List<Track>();
     }
 }

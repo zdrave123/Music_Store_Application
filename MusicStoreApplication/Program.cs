@@ -25,14 +25,19 @@ builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
 builder.Services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository));
+builder.Services.AddScoped(typeof(IAlbumRepository), typeof(AlbumRepository));
+builder.Services.AddScoped(typeof(IArtistRepository), typeof(ArtistRepository));
+builder.Services.AddScoped(typeof(IPlaylistRepository), typeof(PlaylistRepository));
+builder.Services.AddScoped(typeof(ITrackRepository), typeof(TrackRepository));
+builder.Services.AddScoped(typeof(IShoppingCartRepository), typeof(ShoppingCartRepository));
 
 
 builder.Services.AddTransient<ITicketService, TicketService>();
 builder.Services.AddTransient<IShoppingCartService, ShoppingCartService>();
-builder.Services.AddTransient<IInstrumentService, InstrumentService>();
 builder.Services.AddTransient<IAlbumService, AlbumService>();
-builder.Services.AddTransient<IAccessoryService, AccessoryService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IArtistService, ArtistService>();
+builder.Services.AddTransient<ITrackService, TrackService>();
 
 var app = builder.Build();
 

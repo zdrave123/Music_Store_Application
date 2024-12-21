@@ -10,16 +10,15 @@ namespace MusicStore.Domain.Domain
 {
     public class Ticket : BaseEntity
     {
-        public Guid ProductId { get; set; }
-        public Product? Product { get; set; }
-
-        [Required]
+        public Guid TrackId { get; set; }
+        public Track? Track { get; set; }
         public double Price { get; set; }
-
-        [Required]
         public double Rating { get; set; }
-        public virtual MusicStoreApplicationUser? CreatedBy { get; set; }
-        public virtual ICollection<TicketInShoppingCart>? ProductsInShoppingCart { get; set; }
-        public ICollection<TicketInOrder>? ProductInOrders { get; set; }
+
+        public Guid OrderId { get; set; }
+        public Order? Order { get; set; }
+
+        public ICollection<TicketInShoppingCart> ProductsInShoppingCart { get; set; } = new List<TicketInShoppingCart>();
+     
     }
 }

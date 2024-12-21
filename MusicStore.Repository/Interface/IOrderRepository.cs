@@ -10,6 +10,8 @@ namespace MusicStore.Repository.Interface
     public interface IOrderRepository
     {
         List<Order> GetAllOrders();
-        Order GetDetailsForOrder(BaseEntity id);
+        Order GetOrderDetails(Guid id);  // Get order by ID
+        Order CreateOrder(string userId, ICollection<Ticket> tickets);  // Create a new order
+        void AddTracksToPlaylist(string userId, ICollection<Ticket> tickets);  // Add purchased tracks to user's playlist
     }
 }
