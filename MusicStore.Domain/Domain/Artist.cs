@@ -11,5 +11,6 @@ namespace MusicStore.Domain.Domain
         public string Name { get; set; } = string.Empty;
         public string Bio { get; set; } = string.Empty;
         public ICollection<Album> Albums { get; set; } = new List<Album>();
+        public ICollection<Track> Tracks { get;} = new List<Track>();
     }
 }

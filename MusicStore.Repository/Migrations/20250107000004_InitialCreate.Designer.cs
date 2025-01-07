@@ -12,8 +12,8 @@ using MusicStoreApplication.Repository;
 namespace MusicStore.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241221125620_FixedSecondTime")]
-    partial class FixedSecondTime
+    [Migration("20250107000004_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -199,12 +199,7 @@ namespace MusicStore.Repository.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("TrackId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TrackId");
 
                     b.ToTable("Artists");
                 });
@@ -236,9 +231,7 @@ namespace MusicStore.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId")
-                        .IsUnique()
-                        .HasFilter("[OwnerId] IS NOT NULL");
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("ShoppingCarts");
                 });
@@ -330,6 +323,9 @@ namespace MusicStore.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("MusicStoreApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -340,6 +336,8 @@ namespace MusicStore.Repository.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MusicStoreApplicationUserId");
 
                     b.HasIndex("OrderId");
 
@@ -405,6 +403,9 @@ namespace MusicStore.Repository.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("UserCartId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -419,7 +420,24 @@ namespace MusicStore.Repository.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("UserCartId");
+
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("TrackArtists", b =>
+                {
+                    b.Property<Guid>("ArtistsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TracksId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ArtistsId", "TracksId");
+
+                    b.HasIndex("TracksId");
+
+                    b.ToTable("TrackArtists");
                 });
 
             modelBuilder.Entity("TrackUserPlaylist", b =>
@@ -434,7 +452,7 @@ namespace MusicStore.Repository.Migrations
 
                     b.HasIndex("TracksId");
 
-                    b.ToTable("TrackUserPlaylist");
+                    b.ToTable("PlaylistTracks", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -499,18 +517,12 @@ namespace MusicStore.Repository.Migrations
                     b.Navigation("Artist");
                 });
 
-            modelBuilder.Entity("MusicStore.Domain.Domain.Artist", b =>
-                {
-                    b.HasOne("MusicStore.Domain.Domain.Track", null)
-                        .WithMany("Artists")
-                        .HasForeignKey("TrackId");
-                });
-
             modelBuilder.Entity("MusicStore.Domain.Domain.Order", b =>
                 {
                     b.HasOne("MusicStore.Domain.Identity.MusicStoreApplicationUser", "Owner")
                         .WithMany()
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Owner");
                 });
@@ -518,8 +530,9 @@ namespace MusicStore.Repository.Migrations
             modelBuilder.Entity("MusicStore.Domain.Domain.ShoppingCart", b =>
                 {
                     b.HasOne("MusicStore.Domain.Identity.MusicStoreApplicationUser", "Owner")
-                        .WithOne("UserCart")
-                        .HasForeignKey("MusicStore.Domain.Domain.ShoppingCart", "OwnerId");
+                        .WithMany()
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Owner");
                 });
@@ -583,15 +596,44 @@ namespace MusicStore.Repository.Migrations
 
             modelBuilder.Entity("MusicStore.Domain.Domain.UserPlaylist", b =>
                 {
+                    b.HasOne("MusicStore.Domain.Identity.MusicStoreApplicationUser", null)
+                        .WithMany("MyPlaylists")
+                        .HasForeignKey("MusicStoreApplicationUserId");
+
                     b.HasOne("MusicStore.Domain.Domain.Order", null)
                         .WithMany("UserPlaylists")
                         .HasForeignKey("OrderId");
 
                     b.HasOne("MusicStore.Domain.Identity.MusicStoreApplicationUser", "User")
-                        .WithMany("MyPlaylists")
-                        .HasForeignKey("UserId");
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MusicStore.Domain.Identity.MusicStoreApplicationUser", b =>
+                {
+                    b.HasOne("MusicStore.Domain.Domain.ShoppingCart", "UserCart")
+                        .WithMany()
+                        .HasForeignKey("UserCartId");
+
+                    b.Navigation("UserCart");
+                });
+
+            modelBuilder.Entity("TrackArtists", b =>
+                {
+                    b.HasOne("MusicStore.Domain.Domain.Artist", null)
+                        .WithMany()
+                        .HasForeignKey("ArtistsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MusicStore.Domain.Domain.Track", null)
+                        .WithMany()
+                        .HasForeignKey("TracksId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TrackUserPlaylist", b =>
@@ -636,11 +678,6 @@ namespace MusicStore.Repository.Migrations
                     b.Navigation("ProductsInShoppingCart");
                 });
 
-            modelBuilder.Entity("MusicStore.Domain.Domain.Track", b =>
-                {
-                    b.Navigation("Artists");
-                });
-
             modelBuilder.Entity("MusicStore.Domain.Identity.MusicStoreApplicationUser", b =>
                 {
                     b.Navigation("CartItems");
@@ -648,8 +685,6 @@ namespace MusicStore.Repository.Migrations
                     b.Navigation("MyPlaylists");
 
                     b.Navigation("PurchasedTracks");
-
-                    b.Navigation("UserCart");
                 });
 #pragma warning restore 612, 618
         }

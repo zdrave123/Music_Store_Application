@@ -10,8 +10,10 @@ namespace MusicStore.Domain.Domain
     {
         public string Title { get; set; } = string.Empty;
         public DateTime ReleaseDate { get; set; }
-       
+
+        public Guid ArtistId { get; set; } // Foreign key
         public Artist Artist { get; set; } = null!;
+
         public ICollection<Track> Tracks { get; set; } = new List<Track>();
     }
 }
