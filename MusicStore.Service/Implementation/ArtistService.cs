@@ -1,4 +1,6 @@
-﻿using MusicStore.Domain.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using MusicStore.Domain.Domain;
+using MusicStore.Repository.Implementation;
 using MusicStore.Repository.Interface;
 using MusicStore.Service.Interface;
 using System;
@@ -22,8 +24,10 @@ namespace MusicStore.Service.Implementation
 
         public List<Artist> GetAllArtists()
         {
-            return (List<Artist>)_artistRepository.GetAll();
+            var artists = _artistRepository.GetAll(); // Ensure this returns a valid IEnumerable<Artist>
+            return artists?.ToList() ?? new List<Artist>(); // Convert to List and handle null
         }
+
 
         public Artist GetArtistById(Guid artistId)
         {
@@ -54,12 +58,18 @@ namespace MusicStore.Service.Implementation
             if (artist == null)
                 throw new ArgumentNullException(nameof(artist));
 
+            // Retrieve the existing artist from the database
             var existingArtist = _artistRepository.Get(artist.Id);
             if (existingArtist == null)
                 throw new Exception("Artist not found");
 
-            return _artistRepository.Update(artist);
+            // Update properties of the existing artist
+            existingArtist.Name = artist.Name;
+            existingArtist.Bio = artist.Bio;
+            _artistRepository.Update(existingArtist);
+            return existingArtist; // Return updated artist
         }
+
 
         public Artist DeleteArtist(Guid artistId)
         {

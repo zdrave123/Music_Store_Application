@@ -1,0 +1,81 @@
+﻿@model IEnumerable<MusicStore.Domain.Domain.Artist>
+
+<h2>Artists</h2>
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New Artist</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Bio</th>
+            <th>Albums</th>
+            <th>Tracks</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var artist in Model)
+        {
+            <tr>
+                <td>@artist.Name</td>
+                <td>@artist.Bio</td>
+
+                <!-- Displaying associated albums -->
+                <td>
+                    @if (artist.Albums != null && artist.Albums.Count > 0)
+                    {
+                        <ul>
+                            @foreach (var album in artist.Albums)
+                            {
+                                <li>@album.Title</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>No albums.</p>
+                    }
+                </td>
+
+                <!-- Displaying associated tracks -->
+                <td>
+                    @if (artist.Tracks != null && artist.Tracks.Count > 0)
+                    {
+                        <ul>
+                            @foreach (var track in artist.Tracks)
+                            {
+                                <li>@track.Title</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>No tracks.</p>
+                    }
+                </td>
+
+                <td>
+                    <a asp-action="Details" asp-route-id="@artist.Id" class="btn btn-info">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@artist.Id" class="btn btn-warning">Edit</a> |
+                    <form asp-action="Delete" asp-route-id="@artist.Id" method="post" style="display:inline;" onsubmit="return confirmDelete();">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.Any())
+{
+    <p>No artists found.</p>
+}
+
+<script>
+    // Function to display a confirmation dialog
+    function confirmDelete() {
+        return confirm("Are you sure you want to delete this artist?");
+    }
+</script>

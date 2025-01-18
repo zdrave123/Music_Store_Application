@@ -114,6 +114,16 @@ namespace MusicStoreApplication.Repository
                 .WithMany()
                 .HasForeignKey(o => o.OwnerId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Artist>(entity =>
+            {
+                entity.HasData(new Artist
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Jimmy Hendrix",
+                    Bio = "dobar muzi4ar"
+                });
+            });
         }
 
     }

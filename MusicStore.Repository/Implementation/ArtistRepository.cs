@@ -22,7 +22,10 @@ namespace MusicStore.Repository.Implementation
         // Generic CRUD operations
         public IEnumerable<Artist> GetAll()
         {
-            return _context.Artists.Include(a => a.Albums).ToList();
+            return _context.Artists
+                .Include(a => a.Albums)
+                .Include(a => a.Tracks)
+                .ToList();
         }
 
         public Artist Get(Guid? id)

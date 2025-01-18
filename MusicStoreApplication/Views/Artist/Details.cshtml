@@ -1,0 +1,53 @@
+﻿@model MusicStore.Domain.Domain.Artist
+
+
+<h2>Artist Details</h2>
+
+<div>
+    <h4>Name</h4>
+    <p>@Model.Name</p>
+</div>
+
+<div>
+    <h4>Bio</h4>
+    <p>@Model.Bio</p>
+</div>
+
+<div>
+    <h4>Albums</h4>
+    @if (Model.Albums != null && Model.Albums.Count > 0)
+    {
+        <ul>
+            @foreach (var album in Model.Albums)
+            {
+                <li>@album.Title</li> <!-- Assuming Album has a Title property -->
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No albums found for this artist.</p>
+    }
+</div>
+
+<div>
+    <h4>Tracks</h4>
+    @if (Model.Tracks != null && Model.Tracks.Count > 0)
+    {
+        <ul>
+            @foreach (var track in Model.Tracks)
+            {
+                <li>@track.Title</li> <!-- Assuming Track has a Title property -->
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No tracks found for this artist.</p>
+    }
+</div>
+
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a> |
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</p>
