@@ -12,8 +12,8 @@ using MusicStoreApplication.Repository;
 namespace MusicStore.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250117232205_vtora")]
-    partial class vtora
+    [Migration("20250120174022_one")]
+    partial class one
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -183,6 +183,15 @@ namespace MusicStore.Repository.Migrations
                     b.HasIndex("ArtistId");
 
                     b.ToTable("Albums");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("6d747179-7a6d-4aef-82cb-9967bc4174be"),
+                            ArtistId = new Guid("b125acec-96ea-4ed8-90e4-52eeae168651"),
+                            ReleaseDate = new DateTime(1973, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "The Dark Side of the Moon"
+                        });
                 });
 
             modelBuilder.Entity("MusicStore.Domain.Domain.Artist", b =>
@@ -206,9 +215,9 @@ namespace MusicStore.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a84a064e-157f-4b5a-be81-9d7d4c2ba428"),
-                            Bio = "dobar muzi4ar",
-                            Name = "Jimmy Hendrix"
+                            Id = new Guid("b125acec-96ea-4ed8-90e4-52eeae168651"),
+                            Bio = "A legendary rock band.",
+                            Name = "Pink Floyd"
                         });
                 });
 
@@ -260,7 +269,9 @@ namespace MusicStore.Repository.Migrations
                         .HasColumnType("float");
 
                     b.Property<double>("Rating")
-                        .HasColumnType("float");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(0.0);
 
                     b.Property<Guid>("TrackId")
                         .HasColumnType("uniqueidentifier");
@@ -311,18 +322,34 @@ namespace MusicStore.Repository.Migrations
                     b.Property<Guid>("AlbumId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("ArtistId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("time");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AlbumId");
 
+                    b.HasIndex("ArtistId");
+
                     b.ToTable("Tracks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("816fadb0-ae33-46ce-87ff-38e1b3a4eb1e"),
+                            AlbumId = new Guid("6d747179-7a6d-4aef-82cb-9967bc4174be"),
+                            ArtistId = new Guid("b125acec-96ea-4ed8-90e4-52eeae168651"),
+                            Duration = new TimeSpan(0, 0, 3, 0, 0),
+                            Title = "Stoned"
+                        });
                 });
 
             modelBuilder.Entity("MusicStore.Domain.Domain.UserPlaylist", b =>
@@ -335,7 +362,8 @@ namespace MusicStore.Repository.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<Guid?>("OrderId")
                         .HasColumnType("uniqueidentifier");
@@ -433,21 +461,6 @@ namespace MusicStore.Repository.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("TrackArtists", b =>
-                {
-                    b.Property<Guid>("ArtistsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TracksId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ArtistsId", "TracksId");
-
-                    b.HasIndex("TracksId");
-
-                    b.ToTable("TrackArtists");
-                });
-
             modelBuilder.Entity("TrackUserPlaylist", b =>
                 {
                     b.Property<Guid>("PlaylistsId")
@@ -460,7 +473,7 @@ namespace MusicStore.Repository.Migrations
 
                     b.HasIndex("TracksId");
 
-                    b.ToTable("PlaylistTracks", (string)null);
+                    b.ToTable("TrackUserPlaylist");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -599,7 +612,15 @@ namespace MusicStore.Repository.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MusicStore.Domain.Domain.Artist", "Artist")
+                        .WithMany("Tracks")
+                        .HasForeignKey("ArtistId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Album");
+
+                    b.Navigation("Artist");
                 });
 
             modelBuilder.Entity("MusicStore.Domain.Domain.UserPlaylist", b =>
@@ -629,21 +650,6 @@ namespace MusicStore.Repository.Migrations
                     b.Navigation("UserCart");
                 });
 
-            modelBuilder.Entity("TrackArtists", b =>
-                {
-                    b.HasOne("MusicStore.Domain.Domain.Artist", null)
-                        .WithMany()
-                        .HasForeignKey("ArtistsId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("MusicStore.Domain.Domain.Track", null)
-                        .WithMany()
-                        .HasForeignKey("TracksId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("TrackUserPlaylist", b =>
                 {
                     b.HasOne("MusicStore.Domain.Domain.UserPlaylist", null)
@@ -667,6 +673,8 @@ namespace MusicStore.Repository.Migrations
             modelBuilder.Entity("MusicStore.Domain.Domain.Artist", b =>
                 {
                     b.Navigation("Albums");
+
+                    b.Navigation("Tracks");
                 });
 
             modelBuilder.Entity("MusicStore.Domain.Domain.Order", b =>

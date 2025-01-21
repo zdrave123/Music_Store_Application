@@ -1,0 +1,74 @@
+﻿@model MusicStore.Domain.DTO.TrackCreateViewModel
+
+<h2>Create Track</h2>
+
+<form asp-action="Create" method="post">
+    <!-- Track Title -->
+    <div class="form-group">
+        <label asp-for="Title" class="control-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <!-- Track Duration -->
+    <div class="form-group">
+        <label asp-for="Duration" class="control-label"></label>
+        <input asp-for="Duration" type="time" class="form-control" />
+        <span asp-validation-for="Duration" class="text-danger"></span>
+    </div>
+
+    <!-- Artist Selection -->
+    <div class="form-group">
+        <label for="ArtistId">Select an Artist</label>
+        <ul id="artistList">
+            @foreach (var artist in ViewBag.Artists)
+            {
+                <li>
+                    <input type="radio" name="ArtistId" value="@artist.Id" onclick="loadAlbums('@artist.Id')" />
+                    @artist.Name
+                </li>
+            }
+        </ul>
+        <span asp-validation-for="ArtistId" class="text-danger"></span>
+    </div>
+
+    <!-- Album Selection -->
+    <div class="form-group">
+        <label for="AlbumId">Select an Album</label>
+        <div id="albumList">
+            <p>Select an artist to see their albums.</p>
+        </div>
+        <span asp-validation-for="AlbumId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Back to List</a>
+
+<script>
+    function loadAlbums(artistId) {
+        const albumList = document.getElementById("albumList");
+        albumList.innerHTML = "<p>Loading albums...</p>";
+
+        // Fetch albums for the selected artist via AJAX
+        fetch(`/Track/GetAlbumsByArtist?artistId=${artistId}`)
+            .then(response => response.json())
+            .then(albums => {
+                if (albums.length > 0) {
+                    albumList.innerHTML = albums.map(album => `
+                        <div>
+                            <input type="radio" name="AlbumId" value="${album.id}" />
+                            ${album.title}
+                        </div>
+                    `).join('');
+                } else {
+                    albumList.innerHTML = "<p>No albums available for this artist.</p>";
+                }
+            })
+            .catch(error => {
+                console.error("Error loading albums:", error);
+                albumList.innerHTML = "<p>Unable to load albums.</p>";
+            });
+    }
+</script>

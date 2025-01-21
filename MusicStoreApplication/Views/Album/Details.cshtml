@@ -1,0 +1,33 @@
+﻿@model MusicStore.Domain.Domain.Album
+
+<h2>Album Details</h2>
+
+<div>
+    <h4>@Model.Title</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Release Date</dt>
+        <dd class="col-sm-10">@Model.ReleaseDate.ToShortDateString()</dd>
+
+        <dt class="col-sm-2">Artist</dt>
+        <dd class="col-sm-10">@Model.Artist.Name</dd> <!-- Assuming Artist is included in your Album model -->
+    </dl>
+
+    <h4>Tracks</h4>
+
+    @if (Model.Tracks != null && Model.Tracks.Any())
+    {
+        <ul class="list-group">
+            @foreach (var track in Model.Tracks)
+            {
+                <li class="list-group-item">@track.Title</li> <!-- Assuming Track has a Title property -->
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No tracks just yet.</p>
+    }
+
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MusicStore.Domain.Domain;
 using MusicStore.Domain.Identity;
+using NuGet.DependencyResolver;
 
 namespace MusicStoreApplication.Repository
 {
@@ -26,105 +27,167 @@ namespace MusicStoreApplication.Repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
-            // Album -> Artist (Many-to-One)
-            modelBuilder.Entity<Album>()
-                .HasOne(a => a.Artist)
-                .WithMany(ar => ar.Albums)
-                .HasForeignKey("ArtistId")
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // Album -> Track (One-to-Many)
-            modelBuilder.Entity<Track>()
-                .HasOne(t => t.Album)
-                .WithMany(a => a.Tracks)
-                .HasForeignKey("AlbumId")
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // Track -> Artist (Many-to-Many)
-            modelBuilder.Entity<Track>()
-                .HasMany(t => t.Artists)
-                .WithMany(a => a.Tracks) // Configure the skip navigation property
-                .UsingEntity<Dictionary<string, object>>(
-                    "TrackArtists", // Name of the join table
-                    j => j
-                        .HasOne<Artist>()
-                        .WithMany()
-                        .HasForeignKey("ArtistsId")
-                        .OnDelete(DeleteBehavior.Restrict), // Prevent cascading delete for Artists
-                    j => j
-                        .HasOne<Track>()
-                        .WithMany()
-                        .HasForeignKey("TracksId")
-                        .OnDelete(DeleteBehavior.Restrict) // Prevent cascading delete for Tracks
-                );
-
-            // Track -> UserPlaylist (Many-to-Many)
-            modelBuilder.Entity<Track>()
-                .HasMany(t => t.Playlists)
-                .WithMany(p => p.Tracks)
-                .UsingEntity(j => j.ToTable("PlaylistTracks"));
-
-            // Ticket -> Track (Many-to-One)
-            modelBuilder.Entity<Ticket>()
-                .HasOne(t => t.Track)
-                .WithMany()
-                .HasForeignKey(t => t.TrackId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // Ticket -> Order (Many-to-One)
-            modelBuilder.Entity<Ticket>()
-                .HasOne(t => t.Order)
-                .WithMany(o => o.Tickets)
-                .HasForeignKey(t => t.OrderId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // TicketInShoppingCart -> Ticket (Many-to-One)
-            modelBuilder.Entity<TicketInShoppingCart>()
-                .HasOne(tisc => tisc.Ticket)
-                .WithMany(t => t.ProductsInShoppingCart)
-                .HasForeignKey(tisc => tisc.TicketId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // TicketInShoppingCart -> ShoppingCart (Many-to-One)
-            modelBuilder.Entity<TicketInShoppingCart>()
-                .HasOne(tisc => tisc.ShoppingCart)
-                .WithMany(sc => sc.TicketInShoppingCarts)
-                .HasForeignKey(tisc => tisc.ShoppingCartId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // ShoppingCart -> User (One-to-Many)
-            modelBuilder.Entity<ShoppingCart>()
-                .HasOne(sc => sc.Owner)
-                .WithMany()
-                .HasForeignKey(sc => sc.OwnerId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // UserPlaylist -> User (Many-to-One)
-            modelBuilder.Entity<UserPlaylist>()
-                .HasOne(up => up.User)
-                .WithMany()
-                .HasForeignKey(up => up.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // Order -> User (Many-to-One)
-            modelBuilder.Entity<Order>()
-                .HasOne(o => o.Owner)
-                .WithMany()
-                .HasForeignKey(o => o.OwnerId)
-                .OnDelete(DeleteBehavior.Restrict);
+            var artistId = Guid.NewGuid(); // Single GUID for seeding Artist and Album relationship
+            var albumId = Guid.NewGuid();
+            var TrackId = Guid.NewGuid();
 
             modelBuilder.Entity<Artist>(entity =>
             {
+                entity.HasKey(a => a.Id);
+
+                entity.HasMany(a => a.Albums)
+                      .WithOne(al => al.Artist)
+                      .HasForeignKey(al => al.ArtistId)
+                      .OnDelete(DeleteBehavior.Cascade); // Cascade: Deleting Artist deletes Albums
+
+                // Seed data for Artist
                 entity.HasData(new Artist
                 {
-                    Id = Guid.NewGuid(),
-                    Name = "Jimmy Hendrix",
-                    Bio = "dobar muzi4ar"
+                    Id = artistId,
+                    Name = "Pink Floyd",
+                    Bio = "A legendary rock band."
                 });
             });
-        }
 
+            modelBuilder.Entity<Album>(entity =>
+            {
+                entity.HasKey(al => al.Id);
+
+                entity.HasOne(al => al.Artist)
+                      .WithMany(a => a.Albums)
+                      .HasForeignKey(al => al.ArtistId)
+                      .OnDelete(DeleteBehavior.Cascade); // Cascade: Deleting Artist deletes Albums
+
+                entity.HasMany(al => al.Tracks)
+                      .WithOne(tr => tr.Album)
+                      .HasForeignKey(tr => tr.AlbumId)
+                      .OnDelete(DeleteBehavior.Cascade); // Cascade: Deleting Album deletes Tracks
+
+                // Seed data for Album (linked to the Artist)
+                entity.HasData(new Album
+                {
+                    Id = albumId,
+                    Title = "The Dark Side of the Moon",
+                    ReleaseDate = new DateTime(1973, 3, 1),
+                    ArtistId = artistId // Reference the same ID as the Artist
+                });
+            }); 
+
+            // Order Configuration
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.HasKey(o => o.Id);
+
+                entity.HasOne(o => o.Owner)
+                    .WithMany()
+                    .HasForeignKey(o => o.OwnerId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasMany(o => o.Tickets)
+                    .WithOne(t => t.Order)
+                    .HasForeignKey(t => t.OrderId);
+            });
+
+            // ShoppingCart Configuration
+            modelBuilder.Entity<ShoppingCart>(entity =>
+            {
+                entity.HasKey(sc => sc.Id);
+
+                entity.HasOne(sc => sc.Owner)
+                    .WithMany()
+                    .HasForeignKey(sc => sc.OwnerId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasMany(sc => sc.TicketInShoppingCarts)
+                    .WithOne(tisc => tisc.ShoppingCart)
+                    .HasForeignKey(tisc => tisc.ShoppingCartId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // Ticket Configuration
+            modelBuilder.Entity<Ticket>(entity =>
+            {
+                entity.HasKey(t => t.Id);
+
+                entity.Property(t => t.Price)
+                    .IsRequired();
+
+                entity.Property(t => t.Rating)
+                    .IsRequired()
+                    .HasDefaultValue(0);
+
+                entity.HasOne(t => t.Track)
+                    .WithMany()
+                    .HasForeignKey(t => t.TrackId);
+
+                entity.HasMany(t => t.ProductsInShoppingCart)
+                    .WithOne(tisc => tisc.Ticket)
+                    .HasForeignKey(tisc => tisc.TicketId);
+            });
+
+            // TicketInShoppingCart Configuration
+            modelBuilder.Entity<TicketInShoppingCart>(entity =>
+            {
+                entity.HasKey(tisc => tisc.Id);
+
+                entity.HasOne(tisc => tisc.Ticket)
+                    .WithMany(t => t.ProductsInShoppingCart)
+                    .HasForeignKey(tisc => tisc.TicketId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(tisc => tisc.ShoppingCart)
+                    .WithMany(sc => sc.TicketInShoppingCarts)
+                    .HasForeignKey(tisc => tisc.ShoppingCartId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<Track>(entity =>
+            {
+                entity.HasKey(t => t.Id);
+
+                entity.Property(t => t.Title)
+                     .IsRequired()
+                     .HasMaxLength(255);
+                
+                
+                entity.HasOne(t => t.Album)
+                .WithMany(a => a.Tracks)
+                .HasForeignKey(t => t.AlbumId)
+                .OnDelete(DeleteBehavior.Cascade); // Tracks are deleted when their Album is deleted
+
+                entity.HasOne(t => t.Artist) // New relationship configuration
+                     .WithMany(a => a.Tracks)
+                     .HasForeignKey(t => t.ArtistId)
+                     .OnDelete(DeleteBehavior.Restrict); // Tracks are deleted when their Artist is deleted
+
+                entity.HasData(new Track
+                {
+                    Id = TrackId,
+                    Title = "Stoned",
+                    Duration = TimeSpan.FromMinutes(3),
+                    AlbumId = albumId,
+                    ArtistId = artistId
+                });;
+            });
+
+            // UserPlaylist Configuration
+            modelBuilder.Entity<UserPlaylist>(entity =>
+            {
+                entity.HasKey(up => up.Id);
+
+                entity.Property(up => up.Name)
+                    .HasMaxLength(255);
+
+                entity.HasOne(up => up.User)
+                    .WithMany()
+                    .HasForeignKey(up => up.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasMany(up => up.Tracks)
+                    .WithMany(t => t.Playlists);
+            });
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

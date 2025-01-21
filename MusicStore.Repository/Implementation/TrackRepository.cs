@@ -30,7 +30,7 @@ namespace MusicStore.Repository.Implementation
 
         public List<Track> GetAllTracks()
         {
-            return entities.ToList();
+            return entities.Include(a => a.Artist).Include(a => a.Album).ToList();
         }
 
         public Track GetTrackById(Guid id)

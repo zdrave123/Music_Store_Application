@@ -1,4 +1,5 @@
 ﻿using MusicStore.Domain.Domain;
+using MusicStore.Domain.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,9 @@ namespace MusicStore.Service.Interface
         IEnumerable<Track> GetTracksForAlbum(Guid albumId);
         Track GetTrackById(Guid trackId);
         /*Ticket GetTicketForTrack(Guid trackId);*/
-
+        Track CreateTrack(TrackCreateViewModel track);
+        Track UpdateTrack(Guid trackId, string title, TimeSpan duration);
+        void DeleteTrack(Guid trackId);
+        IEnumerable<Track> GetAllTracks();
     }
 }

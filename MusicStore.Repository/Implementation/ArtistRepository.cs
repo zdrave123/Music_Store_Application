@@ -30,7 +30,7 @@ namespace MusicStore.Repository.Implementation
 
         public Artist Get(Guid? id)
         {
-            return _context.Artists.Include(a => a.Albums).FirstOrDefault(a => a.Id == id);
+            return _context.Artists.Include(a => a.Albums).Include(a => a.Tracks).FirstOrDefault(a => a.Id == id);
         }
 
         public Artist Insert(Artist entity)

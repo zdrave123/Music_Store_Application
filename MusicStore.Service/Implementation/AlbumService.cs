@@ -1,9 +1,12 @@
-﻿using MusicStore.Domain.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using MusicStore.Domain.Domain;
+using MusicStore.Domain.DTO;
 using MusicStore.Repository.Implementation;
 using MusicStore.Repository.Interface;
 using MusicStore.Service.Interface;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,9 +21,12 @@ namespace MusicStore.Service.Implementation
         private readonly IShoppingCartRepository _shoppingCartRepository;
         private readonly IRepository<Ticket> _ticketRepository;
 
-        public AlbumService(IAlbumRepository albumRepository)
+        public AlbumService(IAlbumRepository albumRepository, ITrackRepository trackRepository, IShoppingCartRepository shoppingCartRepository, IRepository<Ticket> repository)
         {
             _albumRepository = albumRepository;
+            _trackRepository = trackRepository;
+            _shoppingCartRepository = shoppingCartRepository;
+            _ticketRepository = repository;
         }
 
         public List<Album> GetAllAlbums()
@@ -32,20 +38,69 @@ namespace MusicStore.Service.Implementation
         {
             return _albumRepository.Get(id.Value);  // Get details of a specific album
         }
-
-        public void CreateNewAlbum(Album p)
+        public void CreateAlbum(string title, DateTime releaseDate, Guid artistId)
         {
-            _albumRepository.Insert(p);  // Add a new album
+            // Perform validation and throw exceptions for invalid input
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                throw new ArgumentException("Title is required.");
+            }
+
+            if (releaseDate == default)
+            {
+                throw new ArgumentException("Valid release date is required.");
+            }
+
+            if (artistId == Guid.Empty)
+            {
+                throw new ArgumentException("Please select a valid artist.");
+            }
+
+            // Create and insert the album
+            var album = new Album
+            {
+                Id = Guid.NewGuid(),
+                Title = title,
+                ReleaseDate = releaseDate,
+                ArtistId = artistId
+            };
+
+            _albumRepository.Insert(album);
         }
 
-        public void UpdateExistingAlbum(Album p)
+        public void UpdateAlbum(Guid id, string title, DateTime releaseDate)
         {
-            _albumRepository.Update(p);  // Update an existing album
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                throw new ArgumentException("Title is required.");
+            }
+
+            if (releaseDate == default)
+            {
+                throw new ArgumentException("Valid release date is required.");
+            }
+
+            var album = _albumRepository.Get(id);
+            if (album == null)
+            {
+                throw new Exception("Album not found.");
+            }
+
+            // Update only the fields that are editable
+            album.Title = title;
+            album.ReleaseDate = releaseDate;
+
+            _albumRepository.Update(album);
         }
+
 
         public void DeleteAlbum(Guid id)
         {
             var album = _albumRepository.Get(id);
+            if (album == null)
+            {
+                throw new Exception("Album not found");
+            }
             _albumRepository.Delete(album);  // Delete an album
         }
 
@@ -73,6 +128,16 @@ namespace MusicStore.Service.Implementation
         public void AddTrackToShoppingCart(Guid trackId, string userId)
         {
             _shoppingCartRepository.AddTrackToCart(trackId, userId);  // Add a single track to the user's shopping cart
+        }
+        public IEnumerable<AlbumDropDownDto> GetAlbumsByArtist(Guid artistId)
+        {
+            return _albumRepository.GetAlbumsByArtist(artistId)
+                .Select(a => new AlbumDropDownDto
+                {
+                    Id = a.Id,
+                    Title = a.Title
+                })
+                .ToList();
         }
     }
 }

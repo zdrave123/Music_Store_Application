@@ -13,29 +13,33 @@ namespace MusicStore.Repository.Implementation
     public class AlbumRepository : IAlbumRepository
     {
         private readonly ApplicationDbContext context;
-        private DbSet<Album> entities;
+        //private DbSet<Album> entities;
 
         public AlbumRepository(ApplicationDbContext context)
         {
             this.context = context;
-            entities = context.Set<Album>();
+            //entities = context.Set<Album>();
         }
 
         public IEnumerable<Album> GetAll()
         {
-            return context.Albums.Include(a => a.Tracks).ToList();
+            return context.Albums.Include(a => a.Artist).Include(a => a.Tracks).ToList();
         }
 
         public Album Get(Guid? id)
         {
-            return context.Albums.Include(a => a.Tracks).FirstOrDefault(a => a.Id == id);
+            return context.Albums
+                .Include(a => a.Artist)
+                .Include(a => a.Tracks)
+                .FirstOrDefault(a => a.Id == id);
         }
 
-        public Album Insert(Album entity)
+        public Album Insert(Album album)
         {
-            context.Albums.Add(entity);
+            Console.WriteLine($"Inserting Album: Title={album.Title}, ReleaseDate={album.ReleaseDate}, ArtistId={album.ArtistId}");
+            context.Albums.Add(album);
             context.SaveChanges();
-            return entity;
+            return album;
         }
 
         public List<Album> InsertMany(List<Album> entities)
@@ -48,16 +52,25 @@ namespace MusicStore.Repository.Implementation
         public List<Album> GetAlbumsByArtist(Guid artistId)
         {
             return context.Albums
-                           .Where(a => a.Id == artistId)
-                           .ToList();
+                .Where(a => a.ArtistId == artistId)
+                .Include(a => a.Artist)
+                .Include(a => a.Tracks)
+                .ToList();
         }
 
         public Album Update(Album entity)
         {
-            context.Albums.Update(entity);
+            context.Albums.Attach(entity); // Attach the entity to the context
+            context.Entry(entity).Property(a => a.Title).IsModified = true;
+            context.Entry(entity).Property(a => a.ReleaseDate).IsModified = true;
+
+            // Ensure ArtistId is not marked as modified
+            context.Entry(entity).Property(a => a.ArtistId).IsModified = false;
+
             context.SaveChanges();
             return entity;
         }
+
 
         public Album Delete(Album entity)
         {

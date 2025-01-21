@@ -2,58 +2,23 @@
 
 <h2>Edit Artist</h2>
 
-<form asp-action="Edit">
-    @Html.HiddenFor(m => m.Id)
+<form asp-action="Edit" method="post">
+    <!-- Hidden field to include the artist ID -->
+    <input type="hidden" asp-for="Id" />
 
     <div class="form-group">
-        <label asp-for="Name"></label>
+        <label asp-for="Name" class="control-label"></label>
         <input asp-for="Name" class="form-control" />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="Bio"></label>
+        <label asp-for="Bio" class="control-label"></label>
         <textarea asp-for="Bio" class="form-control"></textarea>
         <span asp-validation-for="Bio" class="text-danger"></span>
     </div>
 
-    <!-- Displaying Albums and Tracks without allowing edits -->
-    <h4>Albums</h4>
-    @if (Model.Albums != null && Model.Albums.Count > 0)
-    {
-        <ul>
-            @foreach (var album in Model.Albums)
-            {
-                <li>@album.Title</li> <!-- Assuming Album has a Title property -->
-            }
-        </ul>
-    }
-    else
-    {
-        <p>No albums found for this artist.</p>
-    }
-
-    <h4>Tracks</h4>
-    @if (Model.Tracks != null && Model.Tracks.Count > 0)
-    {
-        <ul>
-            @foreach (var track in Model.Tracks)
-            {
-                <li>@track.Title</li> <!-- Assuming Track has a Title property -->
-            }
-        </ul>
-    }
-    else
-    {
-        <p>No tracks found for this artist.</p>
-    }
-
     <button type="submit" class="btn btn-primary">Save Changes</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+<a asp-action="Index" class="btn btn-secondary mt-3">Back to List</a>

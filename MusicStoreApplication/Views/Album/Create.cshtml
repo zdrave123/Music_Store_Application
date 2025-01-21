@@ -1,0 +1,30 @@
+﻿@model MusicStore.Domain.Domain.Album
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="Title">Title</label>
+        <input type="text" id="Title" name="title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="ReleaseDate">Release Date</label>
+        <input type="date" id="ReleaseDate" name="releaseDate" class="form-control" />
+        <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="ArtistId">Artist</label>
+        <select id="ArtistId" name="artistId" class="form-control">
+            <option value="">-- Select Artist --</option>
+            @foreach (var artist in ViewBag.Artists as List<SelectListItem>)
+            {
+                <option value="@artist.Value">@artist.Text</option>
+            }
+        </select>
+        <span asp-validation-for="ArtistId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
