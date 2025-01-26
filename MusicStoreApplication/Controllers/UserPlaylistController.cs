@@ -106,6 +106,18 @@ namespace MusicStore.Web.Controllers
             return View(track); 
         }
 
+        [HttpPost]
+        public IActionResult RemoveAlbumConfirmation(Guid id)
+        {
+            var album = _albumService.GetAlbumById(id);
+            if (album == null)
+            {
+                return NotFound();
+            }
+
+            return View(album);
+        }
+
 
         [HttpPost]
         public IActionResult RemoveTrack(Guid id)
@@ -118,6 +130,21 @@ namespace MusicStore.Web.Controllers
 
             _playlistService.RemoveTrackFromBoughtItems(id);
             return RedirectToAction("ManagePlaylists"); 
+        }
+
+
+        [HttpPost]
+        public IActionResult RemoveAlbum(Guid id)
+        {
+            var album = _albumService.GetAlbumById(id);
+            if (album == null)
+            {
+                return NotFound();
+            }
+            
+            _playlistService.RemoveAlbumFromBoughtItems(id);
+            
+            return RedirectToAction("ManagePlaylists");
         }
     }
 }

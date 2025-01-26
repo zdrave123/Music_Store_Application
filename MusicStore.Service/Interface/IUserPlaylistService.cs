@@ -16,5 +16,6 @@ namespace MusicStore.Service.Interface
         void DeletePlaylist(Guid playlistId);
         UserPlaylist GetPlaylistDetails(Guid playlistId);
         void RemoveTrackFromBoughtItems(Guid trackId);
+        void RemoveAlbumFromBoughtItems(Guid id);
     }
 }

@@ -195,7 +195,7 @@ namespace MusicStore.Web.Controllers
                     Id = Guid.NewGuid(),
                     ProductId = track.Id,
                     ProductName = track.Title,
-                    Price = track.Price,
+                    Price = 0,
                     ProductType = "Track"
                 };
 

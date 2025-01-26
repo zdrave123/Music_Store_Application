@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "RemoveAlbumConfirmation";
+}
+
+@model MusicStore.Domain.Domain.Album
+
+<div class="container">
+    <h1>Confirm Album Removal</h1>
+    <p>Are you sure you want to remove the album: <strong>@Model.Title</strong>?</p>
+    <p>If you remove it, you will need to buy it again.</p>
+
+    <form asp-action="RemoveAlbum" method="post" asp-route-id="@Model.Id">
+        <button type="submit" class="btn btn-danger">Yes, Remove</button>
+    </form>
+
+    <a asp-action="ManagePlaylists" class="btn btn-secondary">Cancel</a>
+</div>
+

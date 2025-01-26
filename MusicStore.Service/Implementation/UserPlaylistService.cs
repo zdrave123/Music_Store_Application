@@ -62,8 +62,11 @@ namespace MusicStore.Service.Implementation
 
             if (playlist != null && track != null)
             {
-                playlist.Tracks.Add(track);
-                _playlistRepository.Update(playlist);
+                if (!playlistRepositoryNew.GetPlaylistById(playlistId).Tracks.Contains(track))
+                {
+                    playlist.Tracks.Add(track);
+                    _playlistRepository.Update(playlist);
+                }
             }
             
         }
@@ -110,6 +113,11 @@ namespace MusicStore.Service.Implementation
             
             _boughtItemRepository.Delete(_boughtItemRepository.GetAll().FirstOrDefault(i => i.ProductId == trackId));
             
+        }
+
+        public void RemoveAlbumFromBoughtItems(Guid id)
+        {
+            _boughtItemRepository.Delete(_boughtItemRepository.GetAll().FirstOrDefault(i => i.ProductId == id));
         }
     }
 }
