@@ -1,0 +1,44 @@
+﻿@model MusicStore.Domain.Domain.UserPlaylist
+
+<div class="container">
+    <h2>@Model?.Name Playlist</h2>
+
+    @if (Model?.Tracks != null && Model.Tracks.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Track Name</th>
+                    <th>Artist</th>
+                    <th>Album</th>
+                    <th>Duration</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var track in Model.Tracks)
+                {
+                    <tr>
+                        <td>@track.Title</td>
+                        <td>@track.Artist?.Name</td>
+                        <td>@track.Album.Title</td>
+                        <td>@track.Duration</td>
+                        <td>
+                            <form asp-action="RemoveTrackFromPlaylist" method="post">
+                                <input type="hidden" name="playlistId" value="@Model.Id" />
+                                <input type="hidden" name="trackId" value="@track.Id" />
+                                <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No tracks in this playlist.</p>
+    }
+
+    <a asp-action="ManagePlaylists" class="btn btn-secondary">Back to Playlists</a>
+</div>

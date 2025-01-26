@@ -11,6 +11,6 @@ namespace MusicStore.Domain.Domain
     {
         public string? OwnerId { get; set; }
         public MusicStoreApplicationUser? Owner { get; set; }
-        public virtual ICollection<TicketInShoppingCart>? TicketInShoppingCarts { get; set; }
+        public ICollection<ShoppingCartItem> Items { get; set; } = new List<ShoppingCartItem>();
     }
 }

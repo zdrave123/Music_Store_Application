@@ -19,14 +19,16 @@ namespace MusicStore.Service.Implementation
         private readonly IAlbumRepository _albumRepository;
         private readonly ITrackRepository _trackRepository;
         private readonly IShoppingCartRepository _shoppingCartRepository;
+        private readonly IShoppingCartService _shoppingCartService;
         private readonly IRepository<Ticket> _ticketRepository;
 
-        public AlbumService(IAlbumRepository albumRepository, ITrackRepository trackRepository, IShoppingCartRepository shoppingCartRepository, IRepository<Ticket> repository)
+        public AlbumService(IShoppingCartService shoppingCartService, IAlbumRepository albumRepository, ITrackRepository trackRepository, IShoppingCartRepository shoppingCartRepository, IRepository<Ticket> repository)
         {
             _albumRepository = albumRepository;
             _trackRepository = trackRepository;
             _shoppingCartRepository = shoppingCartRepository;
             _ticketRepository = repository;
+            _shoppingCartService = shoppingCartService;
         }
 
         public List<Album> GetAllAlbums()
@@ -38,7 +40,7 @@ namespace MusicStore.Service.Implementation
         {
             return _albumRepository.Get(id.Value);  // Get details of a specific album
         }
-        public void CreateAlbum(string title, DateTime releaseDate, Guid artistId)
+        public void CreateAlbum(string title, DateTime releaseDate, Guid artistId, int price)
         {
             // Perform validation and throw exceptions for invalid input
             if (string.IsNullOrWhiteSpace(title))
@@ -62,13 +64,14 @@ namespace MusicStore.Service.Implementation
                 Id = Guid.NewGuid(),
                 Title = title,
                 ReleaseDate = releaseDate,
-                ArtistId = artistId
+                ArtistId = artistId,
+                Price = price
             };
 
             _albumRepository.Insert(album);
         }
 
-        public void UpdateAlbum(Guid id, string title, DateTime releaseDate)
+        public void UpdateAlbum(Guid id, string title, DateTime releaseDate, int price)
         {
             if (string.IsNullOrWhiteSpace(title))
             {
@@ -89,6 +92,7 @@ namespace MusicStore.Service.Implementation
             // Update only the fields that are editable
             album.Title = title;
             album.ReleaseDate = releaseDate;
+            album.Price = price;
 
             _albumRepository.Update(album);
         }
@@ -111,24 +115,66 @@ namespace MusicStore.Service.Implementation
 
         public List<Track> GetTracksForAlbum(Guid albumId)
         {
-            return (List<Track>)_trackRepository.GetTracksForAlbum(albumId);  // Get tracks for the album
+            return _trackRepository.GetTracksForAlbum(albumId).ToList();  // Get tracks for the album
         }
 
-        public void AddAlbumToShoppingCart(Guid albumId, string userId)
+        /*public void AddAlbumToShoppingCart(Guid albumId, string userId)
         {
+            // Get the album details
             var album = _albumRepository.Get(albumId);
-            // Logic to add all tracks from album to shopping cart for the user
+
+            // Create a ShoppingCartItem for the album
+            var albumItem = new ShoppingCartItem
+            {
+                Id = Guid.NewGuid(),
+                ProductId = albumId,
+                ProductName = album.Title,
+                Price = album.Price,
+                ProductType = "Album"
+            };
+
+            // Add the album to the shopping cart for the user
+            _shoppingCartService.AddItemToCart(userId, albumItem);
+
+            // Get all tracks associated with the album
             var tracks = _trackRepository.GetTracksForAlbum(albumId);
+
+            // Add each track as a ShoppingCartItem
             foreach (var track in tracks)
             {
-                _shoppingCartRepository.AddTrackToCart(track.Id, userId);  // Add each track to the user's shopping cart
+                var trackItem = new ShoppingCartItem
+                {
+                    Id = Guid.NewGuid(),
+                    ProductId = track.Id,
+                    ProductName = track.Title,
+                    Price = track.Price,
+                    ProductType = "Track"
+                };
+
+                // Add the track to the shopping cart for the user
+                _shoppingCartService.AddItemToCart(userId, trackItem);
             }
         }
 
         public void AddTrackToShoppingCart(Guid trackId, string userId)
         {
-            _shoppingCartRepository.AddTrackToCart(trackId, userId);  // Add a single track to the user's shopping cart
-        }
+            // Get the track details
+            var track = _trackRepository.GetTrackById(trackId);
+
+            // Create a ShoppingCartItem for the track
+            var trackItem = new ShoppingCartItem
+            {
+                Id = Guid.NewGuid(),
+                ProductId = trackId,
+                ProductName = track.Title,
+                Price = track.Price,
+                ProductType = "Track"
+            };
+
+            // Add the track to the shopping cart for the user
+            _shoppingCartService.AddItemToCart(userId, trackItem);
+        }*/
+
         public IEnumerable<AlbumDropDownDto> GetAlbumsByArtist(Guid artistId)
         {
             return _albumRepository.GetAlbumsByArtist(artistId)

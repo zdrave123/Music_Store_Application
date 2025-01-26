@@ -1,0 +1,111 @@
+﻿@model MusicStore.Domain.DTO.ManagePlaylistsViewModel
+
+<div class="container">
+    <h1>Manage Your Playlists</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Create New Playlist</h3>
+            <form asp-action="CreatePlaylist" method="post">
+                <div class="input-group mb-3">
+                    <input type="text" name="playlistName" class="form-control" placeholder="Playlist Name" required>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h3>Your Bought Tracks</h3>
+            @if (Model.BoughtItems != null && Model.BoughtItems.Any())
+            {
+                <div class="list-group">
+                    @foreach (var track in Model.BoughtItems)
+                    {
+                        if (track.ProductType == "Track")
+                        {
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                @track.ProductName
+                                <form asp-action="AddTrackToPlaylist" method="post" class="d-flex">
+                                    <input type="hidden" name="trackId" value="@track.ProductId" />
+                                    <select name="playlistId" class="form-select form-select-sm me-2">
+                                        @foreach (var playlist in Model.Playlists)
+                                        {
+                                            <option value="@playlist.Id">@playlist.Name</option>
+                                        }
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-success">Add to Playlist</button>
+                                </form>
+
+                                <form asp-action="RemoveTrackConfirmation" method="post" asp-route-id="@track.ProductId">
+                                    <button type="submit" class="btn btn-sm btn-danger">Remove Track From Your Bought Tracks</button>
+                                </form>
+                            </div>
+                        }
+                        else if (track.ProductType == "Album")
+                        {
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                @track.ProductName (Album)
+                                <form asp-action="AddAlbumToPlaylist" method="post" class="d-flex">
+                                    <input type="hidden" name="albumId" value="@track.ProductId" />
+                                    <select name="playlistId" class="form-select form-select-sm me-2">
+                                        @foreach (var playlist in Model.Playlists)
+                                        {
+                                            <option value="@playlist.Id">@playlist.Name</option>
+                                        }
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-primary">Add Album to Playlist</button>
+                                </form>
+                            </div>
+                        }
+                    }
+                </div>
+            }
+            else
+            {
+                <p>No items in cart</p>
+            }
+        </div>
+
+        <div class="col-md-6">
+            <h3>Your Playlists</h3>
+            @if (Model.Playlists != null && Model.Playlists.Any())
+            {
+                <div class="list-group">
+                    @foreach (var playlist in Model.Playlists)
+                    {
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>@playlist.Name</span>
+
+                            <!-- Button Group -->
+                            <div class="btn-group" role="group" aria-label="Playlist actions">
+                                <!-- Details Button -->
+                                <form asp-action="PlaylistDetails" asp-route-playlistId="@playlist.Id" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-info" title="View details">
+                                        Details
+                                    </button>
+                                </form>
+
+                                <!-- Delete Button -->
+                                <form asp-action="DeletePlaylist" asp-route-playlistId="@playlist.Id" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete playlist">
+                                        Delete
+                                    </button>
+                                </form>
+
+                                
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            }
+            else
+            {
+                <p>No playlists created</p>
+            }
+        </div>
+    </div>
+</div>
+

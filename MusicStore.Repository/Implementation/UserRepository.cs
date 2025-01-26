@@ -32,8 +32,8 @@ namespace MusicStore.Repository.Implementation
             var strGuid = id.ToString();
             return entities
                 .Include(z => z.UserCart)
-                .Include(z => z.UserCart.TicketInShoppingCarts)
-                .Include("UserCart.TicketInShoppingCarts.Ticket")
+                .Include(z => z.UserCart.Items)
+                .Include(z => z.PurchasedTracks)
                 .First(s => s.Id == strGuid);
         }
         public void Insert(MusicStoreApplicationUser entity)

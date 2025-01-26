@@ -74,13 +74,14 @@ namespace MusicStore.Service.Implementation
                 Duration = track.Duration,
                 AlbumId = track.Id,
                 Album = album,
-                Artist = artist 
+                Artist = artist,
+                Price = track.Price
             };
 
             // Use the repository to insert the track
             return _trackRepository.AddTrack(song);
         }
-        public Track UpdateTrack(Guid trackId, string title, TimeSpan duration)
+        public Track UpdateTrack(Guid trackId, string title, TimeSpan duration, int price)
         {
             var track = _trackRepository.GetTrackById(trackId);
             if(track == null)
@@ -89,6 +90,7 @@ namespace MusicStore.Service.Implementation
             }
             track.Title = title;
             track.Duration = duration;
+            track.Price = price;
             _trackRepository.UpdateTrack(track);
             return track;
         }

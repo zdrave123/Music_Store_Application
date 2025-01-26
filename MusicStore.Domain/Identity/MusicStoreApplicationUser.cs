@@ -23,6 +23,6 @@ namespace MusicStore.Domain.Identity
         public virtual ICollection<UserPlaylist>? MyPlaylists { get; set; }
 
         // Tracks the user has bought or listened to (optional)
-        public virtual ICollection<Ticket>? PurchasedTracks { get; set; }
+        public virtual ICollection<ShoppingCartItem>? PurchasedTracks { get; set; }
     }
 }

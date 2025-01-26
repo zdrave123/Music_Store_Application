@@ -17,6 +17,8 @@ namespace MusicStore.Domain.Domain
         public Album Album { get; set; } = null!;
         public Guid ArtistId { get; set; } // New foreign key for Artist
         public Artist Artist { get; set; } = null!;
+
+        public int Price { get; set; }
         public ICollection<UserPlaylist>? Playlists { get; set; }
     }
 

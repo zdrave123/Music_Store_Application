@@ -1,0 +1,163 @@
+﻿@* @model MusicStore.Domain.DTO.ShoppingCartViewModel
+
+<div class="shopping-cart-container">
+    <h2>Your Shopping Cart</h2>
+
+    <form action="/ShoppingCart/Checkout" method="POST">
+        <table class="shopping-cart-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Type</th>
+                    <th>Price</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loop through items in the cart -->
+                @foreach (var item in Model.CartItems)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.ProductType</td>
+                        <td>$@item.Price</td>
+                        <td>
+                            <form method="POST" asp-action="RemoveFromCart" asp-route-id="@item.Id">
+                                <button type="submit" class="btn-danger">Remove From Cart</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="cart-summary">
+            <h3>Cart Summary</h3>
+            <p><strong>Total: </strong> $@Model.TotalPrice</p>
+            <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
+        </div>
+
+        <a asp-action="ClearCart" class="btn btn-danger">Clear Cart</a>
+    </form>
+</div>
+ *@
+
+@* @model MusicStore.Domain.DTO.ShoppingCartViewModel
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Your Shopping Cart</h2>
+
+    
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Product</th>
+                        <th>Type</th>
+                        <th>Price</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop through items in the cart -->
+                    @foreach (var item in Model.CartItems)
+                    {
+                        <tr>
+                            <td>@item.ProductName</td>
+                            <td>@item.ProductType</td>
+                            <td>$@item.Price</td>
+                            <td>
+                                <form method="POST" asp-action="RemoveFromCart" asp-route-id="@item.Id" class="d-inline">
+                                    <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <form asp-action="Checkout">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="cart-summary p-3 border rounded bg-light">
+                    <h4>Cart Summary</h4>
+                    <p><strong>Total: </strong> $@Model.TotalPrice</p>
+                    <button type="submit" class="btn btn-primary btn-lg w-100 mt-2">Proceed to Checkout</button>
+                </div>
+            </div>
+        </form>
+            <div class="col-md-6 text-end">
+                <a asp-action="ClearCart" class="btn btn-danger btn-lg mt-4">Clear Cart</a>
+            </div>
+        </div>
+   
+</div>
+ *@
+
+
+@model MusicStore.Domain.DTO.ShoppingCartViewModel
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Your Shopping Cart</h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Product</th>
+                    <th>Type</th>
+                    <th>Price</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Identify albums in the cart -->
+                @{
+                    var albumsInCart = Model.CartItems
+                    .Where(item => item.ProductType == "Album")
+                    .ToList();
+                }
+
+                <!-- Loop through items in the cart -->
+                @foreach (var item in Model.CartItems)
+                {
+                   
+                        <tr>
+                            <td>@item.ProductName</td>
+                            <td>@item.ProductType</td>
+                            <td>$@item.Price</td>
+                            <td>
+                                <form method="POST" asp-action="RemoveFromCart" asp-route-id="@item.Id" class="d-inline">
+                                    <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                
+            </tbody>
+        </table>
+    </div>
+    <form asp-action="Checkout" method="POST">
+        @for (var i = 0; i < Model.BoughtItems.Count; i++)
+        {
+            <input type="hidden" name="BoughtItems[@i].Id" value="@Model.BoughtItems[i].Id" />
+            <input type="hidden" name="BoughtItems[@i].ProductId" value="@Model.BoughtItems[i].ProductId" />
+            <input type="hidden" name="BoughtItems[@i].ProductName" value="@Model.BoughtItems[i].ProductName" />
+            <input type="hidden" name="BoughtItems[@i].ProductType" value="@Model.BoughtItems[i].ProductType" />
+            <input type="hidden" name="BoughtItems[@i].Price" value="@Model.BoughtItems[i].Price" />
+        }
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="cart-summary p-3 border rounded bg-light">
+                    <h4>Cart Summary</h4>
+                    <p><strong>Total: </strong> $@Model.TotalPrice</p>
+                    <button type="submit" class="btn btn-primary btn-lg w-100 mt-2">Buy Tracks</button>
+                </div>
+            </div>
+    </form>
+    <div class="col-md-6 text-end">
+        <a asp-action="ClearCart" class="btn btn-danger btn-lg mt-4">Clear Cart</a>
+    </div>
+</div>
+</div>

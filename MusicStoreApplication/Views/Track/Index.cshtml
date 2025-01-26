@@ -11,6 +11,7 @@
         <tr>
             <th scope="col">Title</th>
             <th scope="col">Duration</th>
+            <th scope="col">Price</th>
             <th scope="col">Artist</th>
             <th scope="col">Album</th>
             <th scope="col">Actions</th>
@@ -24,12 +25,17 @@
                 <tr>
                     <td>@track.Title</td>
                     <td>@track.Duration</td>
+                    <td>$@track.Price</td>
                     <td>@track.Artist.Name</td> <!-- Assuming Artist has a Name property -->
                     <td>@track.Album?.Title</td> <!-- Assuming Album has a Title property -->
                     <td>
                         <a asp-action="Edit" asp-route-id="@track.Id" class="btn btn-warning btn-sm">Edit</a>
                         <form asp-action="Delete" asp-route-id="@track.Id" method="post" class="d-inline" onsubmit="return confirmDelete();">
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+
+                        <form asp-action="AddToCart" asp-route-id="@track.Id" method="post">
+                            <button type="submit" class="btn btn-dark">Add Track To Cart</button>
                         </form>
                     </td>
                 </tr>

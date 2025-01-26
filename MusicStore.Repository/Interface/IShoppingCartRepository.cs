@@ -10,11 +10,13 @@ namespace MusicStore.Repository.Interface
     public interface IShoppingCartRepository
     {
         ShoppingCart GetCartForUser(string userId);
-        void AddTicketToCart(string userId, Ticket ticket);
-        void RemoveTicketFromCart(string userId, Guid ticketId);
+        //void AddTicketToCart(string userId, Ticket ticket);
+        //void RemoveTicketFromCart(string userId, Guid ticketId);
         void ClearCart(string userId);
         void SaveCart(ShoppingCart shoppingCart);
 
-        void AddTrackToCart(Guid trackId, string userId);
+       /* void AddTrackToCart(Guid trackId, string userId);*/
+        //oid AddItemToCart(string userId, ShoppingCartItem item);
+        /*IEnumerable<ShoppingCartItem> GetCartItems(Guid cartId);*/
     }
 }

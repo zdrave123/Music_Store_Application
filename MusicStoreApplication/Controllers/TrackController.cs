@@ -2,6 +2,8 @@
 using MusicStore.Domain.Domain;
 using MusicStore.Domain.DTO;
 using MusicStore.Service.Interface;
+using NuGet.DependencyResolver;
+using System.Security.Claims;
 
 namespace MusicStore.Web.Controllers
 {
@@ -10,13 +12,14 @@ namespace MusicStore.Web.Controllers
         private readonly ITrackService _trackService;
         private readonly IAlbumService _albumService;
         private readonly IArtistService _artistService;
+        private readonly IShoppingCartService _shoppingCartService;
 
-        public TrackController(ITrackService trackService, IAlbumService albumService, IArtistService artistService)
+        public TrackController(IShoppingCartService shoppingCartService, ITrackService trackService, IAlbumService albumService, IArtistService artistService)
         {
             _trackService = trackService;
             _albumService = albumService;
             _artistService = artistService;
-
+            _shoppingCartService = shoppingCartService;
         }
         public IActionResult Index()
         {
@@ -98,23 +101,23 @@ namespace MusicStore.Web.Controllers
         // POST: Tracks/Edit/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Guid id, string title, TimeSpan duration)
+        public IActionResult Edit(Guid id, string title, TimeSpan duration, int price)
         {
             if (string.IsNullOrWhiteSpace(title) || duration.TotalSeconds <= 0)
             {
                 ModelState.AddModelError(string.Empty, "Invalid input data.");
-                return View(new Track { Id = id, Title = title, Duration = duration });
+                return View(new Track { Id = id, Title = title, Duration = duration, Price = price });
             }
 
             try
             {
-                var updatedTrack = _trackService.UpdateTrack(id, title, duration);
+                var updatedTrack = _trackService.UpdateTrack(id, title, duration, price);
                 return RedirectToAction(nameof(Index), new { albumId = updatedTrack.AlbumId });
             }
             catch (ArgumentException ex)
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
-                return View(new Track { Id = id, Title = title, Duration = duration });
+                return View(new Track { Id = id, Title = title, Duration = duration, Price = price });
             }
         }
         // GET: Tracks/Delete/{id}
@@ -136,6 +139,31 @@ namespace MusicStore.Web.Controllers
         {
             _trackService.DeleteTrack(id);
             return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
+        public IActionResult AddToCart(Guid id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? null;
+
+            // Get the track details
+            var track = _trackService.GetTrackById(id);
+
+            // Create a ShoppingCartItem for the track
+            var trackItem = new ShoppingCartItem
+            {
+                Id = Guid.NewGuid(),
+                ProductId = id,
+                ProductName = track.Title,
+                Price = track.Price,
+                ProductType = "Track"
+            };
+
+            // Add the track to the shopping cart for the user
+            _shoppingCartService.AddItemToCart(userId, trackItem);
+
+            return RedirectToAction("ViewCart", "ShoppingCart");
         }
     }
 }

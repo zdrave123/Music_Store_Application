@@ -24,7 +24,7 @@ namespace MusicStore.Repository.Implementation
         public IEnumerable<Track> GetTracksForAlbum(Guid albumId)
         {
             return context.Tracks
-                .Where(t => t.Id == albumId)  // Assuming 'AlbumId' is a foreign key in 'Track'
+                .Where(t => t.AlbumId == albumId)  // Assuming 'AlbumId' is a foreign key in 'Track'
                 .ToList();
         }
 
@@ -35,7 +35,7 @@ namespace MusicStore.Repository.Implementation
 
         public Track GetTrackById(Guid id)
         {
-            return entities.FirstOrDefault(t => t.Id == id);
+            return entities.Include(t => t.Artist).FirstOrDefault(t => t.Id == id);
         }
 
         public Track AddTrack(Track track)

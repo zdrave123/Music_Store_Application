@@ -12,13 +12,16 @@ namespace MusicStoreApplication.Repository
             : base(options)
         {
         }
-        public DbSet<Ticket> Tickets { get; set; }
+        /*public DbSet<Ticket> Tickets { get; set; }*/
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<TicketInShoppingCart> TicketInShoppingCarts { get; set; }
+        /*public DbSet<TicketInShoppingCart> TicketInShoppingCarts { get; set; }*/
  
         public DbSet<Album> Albums { get; set; }
        
+        public DbSet<ShoppingCartItem> CartItems { get; set; }
+       
+        public DbSet<BoughtItem> BoughtItems { get; set; }
 
         public DbSet<Artist> Artists { get; set; }
         public DbSet<Track> Tracks { get; set; }
@@ -30,6 +33,7 @@ namespace MusicStoreApplication.Repository
             var artistId = Guid.NewGuid(); // Single GUID for seeding Artist and Album relationship
             var albumId = Guid.NewGuid();
             var TrackId = Guid.NewGuid();
+
 
             modelBuilder.Entity<Artist>(entity =>
             {
@@ -98,8 +102,8 @@ namespace MusicStoreApplication.Repository
                     .HasForeignKey(sc => sc.OwnerId)
                     .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasMany(sc => sc.TicketInShoppingCarts)
-                    .WithOne(tisc => tisc.ShoppingCart)
+                entity.HasMany(sc => sc.Items)
+                    .WithOne(tisc => tisc.shoppingCart)
                     .HasForeignKey(tisc => tisc.ShoppingCartId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
@@ -126,7 +130,7 @@ namespace MusicStoreApplication.Repository
             });
 
             // TicketInShoppingCart Configuration
-            modelBuilder.Entity<TicketInShoppingCart>(entity =>
+            /*modelBuilder.Entity<TicketInShoppingCart>(entity =>
             {
                 entity.HasKey(tisc => tisc.Id);
 
@@ -136,10 +140,10 @@ namespace MusicStoreApplication.Repository
                     .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(tisc => tisc.ShoppingCart)
-                    .WithMany(sc => sc.TicketInShoppingCarts)
+                    .WithMany(sc => sc.Items)
                     .HasForeignKey(tisc => tisc.ShoppingCartId)
                     .OnDelete(DeleteBehavior.Cascade);
-            });
+            });*/
 
             modelBuilder.Entity<Track>(entity =>
             {

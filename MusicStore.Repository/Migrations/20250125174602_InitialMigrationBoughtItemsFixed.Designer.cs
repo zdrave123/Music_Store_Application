@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicStoreApplication.Repository;
 
@@ -11,9 +12,11 @@ using MusicStoreApplication.Repository;
 namespace MusicStore.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250125174602_InitialMigrationBoughtItemsFixed")]
+    partial class InitialMigrationBoughtItemsFixed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -187,8 +190,8 @@ namespace MusicStore.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1cb92525-5ebc-424d-a330-ffb9b9cb3b53"),
-                            ArtistId = new Guid("4b2db0e3-d0fd-4eb3-9600-1de2d345a25b"),
+                            Id = new Guid("82ae6f0d-dfdc-4086-8611-3b1aa334b411"),
+                            ArtistId = new Guid("3ec493ca-e1b5-487f-85c9-132babe9df0a"),
                             Price = 0,
                             ReleaseDate = new DateTime(1973, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Dark Side of the Moon"
@@ -216,7 +219,7 @@ namespace MusicStore.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4b2db0e3-d0fd-4eb3-9600-1de2d345a25b"),
+                            Id = new Guid("3ec493ca-e1b5-487f-85c9-132babe9df0a"),
                             Bio = "A legendary rock band.",
                             Name = "Pink Floyd"
                         });
@@ -403,9 +406,9 @@ namespace MusicStore.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3fd18036-226f-40b6-a69e-9f079f6aab67"),
-                            AlbumId = new Guid("1cb92525-5ebc-424d-a330-ffb9b9cb3b53"),
-                            ArtistId = new Guid("4b2db0e3-d0fd-4eb3-9600-1de2d345a25b"),
+                            Id = new Guid("24f762b8-3432-4c82-ab2f-8b373788ef8d"),
+                            AlbumId = new Guid("82ae6f0d-dfdc-4086-8611-3b1aa334b411"),
+                            ArtistId = new Guid("3ec493ca-e1b5-487f-85c9-132babe9df0a"),
                             Duration = new TimeSpan(0, 0, 3, 0, 0),
                             Price = 0,
                             Title = "Stoned"

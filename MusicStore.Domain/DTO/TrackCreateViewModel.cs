@@ -22,5 +22,8 @@ namespace MusicStore.Domain.DTO
 
             [Required]
             public Guid AlbumId { get; set; }
+
+            [Required]
+            public int Price { get; set; }
         }
 }

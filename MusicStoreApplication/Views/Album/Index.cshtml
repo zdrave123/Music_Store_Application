@@ -7,6 +7,7 @@
         <tr>
             <th>Title</th>
             <th>Release Date</th>
+            <th>Price</th>
             <th>Artist</th>
             <th>Actions</th>
         </tr>
@@ -17,6 +18,7 @@
             <tr>
                 <td>@album.Title</td>
                 <td>@album.ReleaseDate.ToShortDateString()</td>
+                <td>$@album.Price</td>
                 <td>@album.Artist.Name</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@album.Id" class="btn btn-info">Details</a>
@@ -26,6 +28,10 @@
                     <form asp-action="Delete" asp-route-id="@album.Id" method="post" style="display:inline;" onsubmit="return confirmDelete();">
                         @Html.AntiForgeryToken()
                         <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+
+                    <form asp-action="AddToCart" asp-route-id="@album.Id" method="post">
+                        <button type="submit" class="btn btn-dark">Add Album To Cart</button>
                     </form>
                 </td>
             </tr>

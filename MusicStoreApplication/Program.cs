@@ -1,4 +1,3 @@
-using EShop.Service.Implementation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MusicStore.Domain.Identity;
@@ -33,12 +32,13 @@ builder.Services.AddScoped(typeof(ITrackRepository), typeof(TrackRepository));
 builder.Services.AddScoped(typeof(IShoppingCartRepository), typeof(ShoppingCartRepository));
 
 
-builder.Services.AddTransient<ITicketService, TicketService>();
+/*builder.Services.AddTransient<ITicketService, TicketService>();*/
 builder.Services.AddTransient<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddTransient<IAlbumService, AlbumService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<IArtistService, ArtistService>();
 builder.Services.AddTransient<ITrackService, TrackService>();
+builder.Services.AddTransient<IUserPlaylistService, UserPlaylistService>();
 
 var app = builder.Build();
 

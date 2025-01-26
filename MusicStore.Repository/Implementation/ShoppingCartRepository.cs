@@ -22,15 +22,22 @@ namespace MusicStore.Repository.Implementation
         // Retrieves the shopping cart for a specific user
         public ShoppingCart GetCartForUser(string userId)
         {
-            return _context.ShoppingCarts
-                           .Include(cart => cart.TicketInShoppingCarts)
-                           .ThenInclude(ticketInCart => ticketInCart.Ticket)
-                           .FirstOrDefault(cart => cart.OwnerId == userId)
-                           ?? new ShoppingCart { OwnerId = userId }; // Create new cart if none exists
+            var cart = _context.ShoppingCarts
+                       .Include(c => c.Items)
+                       .FirstOrDefault(cart => cart.OwnerId == userId);
+
+            if (cart == null)
+            {
+                cart = new ShoppingCart { OwnerId = userId };
+                _context.ShoppingCarts.Add(cart);
+                _context.SaveChanges(); // Save the newly created cart to the database
+            }
+
+            return cart;
         }
 
         // Adds a ticket to the user's shopping cart
-        public void AddTicketToCart(string userId, Ticket ticket)
+        /*public void AddTicketToCart(string userId, Ticket ticket)
         {
             var cart = GetCartForUser(userId);
             var existingTicket = cart.TicketInShoppingCarts
@@ -47,31 +54,31 @@ namespace MusicStore.Repository.Implementation
             }
 
             SaveCart(cart);
-        }
+        }*/
 
         // Removes a specific ticket from the user's shopping cart
-        public void RemoveTicketFromCart(string userId, Guid ticketId)
-        {
-            var cart = GetCartForUser(userId);
-            var ticketToRemove = cart.TicketInShoppingCarts
-                                     .FirstOrDefault(t => t.TicketId == ticketId);
+        /*   public void RemoveTicketFromCart(string userId, Guid ticketId)
+           {
+               var cart = GetCartForUser(userId);
+               var ticketToRemove = cart.TicketInShoppingCarts
+                                        .FirstOrDefault(t => t.TicketId == ticketId);
 
-            if (ticketToRemove != null)
-            {
-                cart.TicketInShoppingCarts.Remove(ticketToRemove);
-                SaveCart(cart);
-            }
-        }
+               if (ticketToRemove != null)
+               {
+                   cart.TicketInShoppingCarts.Remove(ticketToRemove);
+                   SaveCart(cart);
+               }
+           }*/
 
         // Clears all items from the user's shopping cart
         public void ClearCart(string userId)
         {
             var cart = GetCartForUser(userId);
-            cart.TicketInShoppingCarts.Clear();
+            cart.Items.Clear();
             SaveCart(cart);
         }
 
-        public void AddTrackToCart(Guid trackId, string userId)
+        /*public void AddTrackToCart(Guid trackId, string userId)
         {
             // Find the user's shopping cart
             var shoppingCart = _context.ShoppingCarts
@@ -109,8 +116,8 @@ namespace MusicStore.Repository.Implementation
             else
             {
                 throw new Exception("Track not found");  // If the track doesn't exist, throw an exception
-            }
-    }
+            }*/
+    //}
 
         // Saves or updates the cart in the database
         public void SaveCart(ShoppingCart shoppingCart)
@@ -126,5 +133,14 @@ namespace MusicStore.Repository.Implementation
 
             _context.SaveChanges();
         }
+
+        /*public IEnumerable<ShoppingCartItem> GetCartItems(Guid cartId)
+        {
+            return _context.CartItems
+                .Where(item => item.shoppingCart.Id == cartId)
+                .Include(item => item.)  // If it's a track, include track details
+                .Include(item => item.Album)  // If it's an album, include album details
+                .ToList();
+        }*/
     }
 }

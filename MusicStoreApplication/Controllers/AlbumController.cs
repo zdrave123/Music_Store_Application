@@ -4,6 +4,7 @@ using MusicStore.Domain.Domain;
 using MusicStore.Domain.DTO;
 using MusicStore.Service.Interface;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 namespace MusicStore.Web.Controllers
 {
@@ -11,11 +12,15 @@ namespace MusicStore.Web.Controllers
     {
         private readonly IAlbumService _albumService;
         private readonly IArtistService _artistService;
+        private readonly ITrackService _trackService;
+        private readonly IShoppingCartService _shoppingCartService;
 
-        public AlbumController(IAlbumService albumService, IArtistService artistService)
+        public AlbumController(ITrackService trackService, IShoppingCartService shoppingCartService, IAlbumService albumService, IArtistService artistService)
         {
             _albumService = albumService;
             _artistService = artistService;
+            _shoppingCartService = shoppingCartService;
+            _trackService = trackService;
         }
         // GET: Album
         public IActionResult Index()
@@ -43,12 +48,12 @@ namespace MusicStore.Web.Controllers
         // POST: Album/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(string title, DateTime releaseDate, Guid artistId)
+        public IActionResult Create(string title, DateTime releaseDate, Guid artistId, int price)
         {
             try
             {
                 // Call the service to create the album
-                _albumService.CreateAlbum(title, releaseDate, artistId);
+                _albumService.CreateAlbum(title, releaseDate, artistId, price);
                 return RedirectToAction(nameof(Index));
             }
             catch (ArgumentException ex)
@@ -110,12 +115,12 @@ namespace MusicStore.Web.Controllers
         // POST: Album/Edit/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Guid id, string title, DateTime releaseDate)
+        public IActionResult Edit(Guid id, string title, DateTime releaseDate, int price)
         {
             try
             {
                 // Update only the editable fields
-                _albumService.UpdateAlbum(id, title, releaseDate);
+                _albumService.UpdateAlbum(id, title, releaseDate, price);
                 return RedirectToAction(nameof(Index));
             }
             catch (ArgumentException ex)
@@ -157,5 +162,47 @@ namespace MusicStore.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        [HttpPost]
+        public IActionResult AddToCart(Guid id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? null;
+
+            // Get the album details
+            var album = _albumService.GetAlbumById(id);
+
+            // Create a ShoppingCartItem for the album
+            var albumItem = new ShoppingCartItem
+            {
+                Id = Guid.NewGuid(),
+                ProductId = id,
+                ProductName = album.Title,
+                Price = album.Price,
+                ProductType = "Album"
+            };
+
+            // Add the album to the shopping cart for the user
+            _shoppingCartService.AddItemToCart(userId, albumItem);
+
+            // Get all tracks associated with the album
+            var tracks = _trackService.GetTracksForAlbum(id);
+
+            // Add each track as a ShoppingCartItem
+            foreach (var track in tracks)
+            {
+                var trackItem = new ShoppingCartItem
+                {
+                    Id = Guid.NewGuid(),
+                    ProductId = track.Id,
+                    ProductName = track.Title,
+                    Price = track.Price,
+                    ProductType = "Track"
+                };
+
+                // Add the track to the shopping cart for the user
+                _shoppingCartService.AddItemToCart(userId, trackItem);
+            }
+            return RedirectToAction("ViewCart", "ShoppingCart");
+        }
     }
 }
