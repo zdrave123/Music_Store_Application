@@ -12,8 +12,8 @@ using MusicStoreApplication.Repository;
 namespace MusicStore.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250125180357_MaybeFix")]
-    partial class MaybeFix
+    [Migration("20250126165454_mig1")]
+    partial class mig1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -190,8 +190,8 @@ namespace MusicStore.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1cb92525-5ebc-424d-a330-ffb9b9cb3b53"),
-                            ArtistId = new Guid("4b2db0e3-d0fd-4eb3-9600-1de2d345a25b"),
+                            Id = new Guid("79af7f31-a7fd-4d1b-8323-35cee4e4b90b"),
+                            ArtistId = new Guid("41101faf-c697-4b4b-943a-240a22de89aa"),
                             Price = 0,
                             ReleaseDate = new DateTime(1973, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Dark Side of the Moon"
@@ -219,7 +219,7 @@ namespace MusicStore.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4b2db0e3-d0fd-4eb3-9600-1de2d345a25b"),
+                            Id = new Guid("41101faf-c697-4b4b-943a-240a22de89aa"),
                             Bio = "A legendary rock band.",
                             Name = "Pink Floyd"
                         });
@@ -406,9 +406,9 @@ namespace MusicStore.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3fd18036-226f-40b6-a69e-9f079f6aab67"),
-                            AlbumId = new Guid("1cb92525-5ebc-424d-a330-ffb9b9cb3b53"),
-                            ArtistId = new Guid("4b2db0e3-d0fd-4eb3-9600-1de2d345a25b"),
+                            Id = new Guid("a12a0838-4ee4-4c0c-b7fe-8c1adb41a2f1"),
+                            AlbumId = new Guid("79af7f31-a7fd-4d1b-8323-35cee4e4b90b"),
+                            ArtistId = new Guid("41101faf-c697-4b4b-943a-240a22de89aa"),
                             Duration = new TimeSpan(0, 0, 3, 0, 0),
                             Price = 0,
                             Title = "Stoned"

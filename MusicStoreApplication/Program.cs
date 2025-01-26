@@ -40,6 +40,12 @@ builder.Services.AddTransient<IArtistService, ArtistService>();
 builder.Services.AddTransient<ITrackService, TrackService>();
 builder.Services.AddTransient<IUserPlaylistService, UserPlaylistService>();
 
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
