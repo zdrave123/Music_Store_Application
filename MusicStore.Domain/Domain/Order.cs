@@ -11,8 +11,9 @@ namespace MusicStore.Domain.Domain
     {
         public string? OwnerId { get; set; }
         public MusicStoreApplicationUser? Owner { get; set; }
-        public ICollection<Ticket>? Tickets { get; set; }
 
-        public ICollection<UserPlaylist> UserPlaylists { get; set; } = new List<UserPlaylist>();
+        public ICollection<BoughtItem> BoughtItems { get; set; } = new List<BoughtItem>();
+
+        public DateTime CreatedAt { get; set; }
     }
 }

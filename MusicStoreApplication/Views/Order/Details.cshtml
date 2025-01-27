@@ -1,0 +1,44 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model MusicStore.Domain.Domain.Order
+
+<h2>Order Details</h2>
+
+<p><strong>Order ID:</strong> @Model.Id</p>
+<p><strong>Order Date and Time:</strong> @Model.CreatedAt</p>
+<p><strong>Owner:</strong> @Model.Owner?.UserName</p>
+
+<h3>Bought Items:</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.BoughtItems)
+        {
+            <tr>
+                <td>@item?.ProductName</td>
+                <td>@item?.ProductType</td>
+                <td>$@item?.Price</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <!-- Buttons side by side -->
+            <a asp-action="ManagePlaylists" asp-controller="UserPlaylist" class="btn btn-outline-success mx-2">View Your Playlist</a>
+            <a asp-action="Index" class="btn btn-outline-success mx-2">Check Your Orders</a>
+        </div>
+    </div>
+</div>

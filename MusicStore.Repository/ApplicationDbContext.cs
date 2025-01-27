@@ -87,7 +87,7 @@ namespace MusicStoreApplication.Repository
                     .HasForeignKey(o => o.OwnerId)
                     .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasMany(o => o.Tickets)
+                entity.HasMany(o => o.BoughtItems)
                     .WithOne(t => t.Order)
                     .HasForeignKey(t => t.OrderId);
             });
@@ -109,7 +109,7 @@ namespace MusicStoreApplication.Repository
             });
 
             // Ticket Configuration
-            modelBuilder.Entity<Ticket>(entity =>
+            /*modelBuilder.Entity<Ticket>(entity =>
             {
                 entity.HasKey(t => t.Id);
 
@@ -127,7 +127,7 @@ namespace MusicStoreApplication.Repository
                 entity.HasMany(t => t.ProductsInShoppingCart)
                     .WithOne(tisc => tisc.Ticket)
                     .HasForeignKey(tisc => tisc.TicketId);
-            });
+            });*/
 
             // TicketInShoppingCart Configuration
             /*modelBuilder.Entity<TicketInShoppingCart>(entity =>

@@ -22,68 +22,50 @@ namespace MusicStore.Repository.Implementation
         public List<Order> GetAllOrders()
         {
             return context.Orders
-                .Include(o => o.Tickets)  // Include tickets in the order
-                .ThenInclude(t => t.Track)  // Include track details for each ticket
-                .Include(o => o.Owner)  // Include user details for the order
+                .Include(o => o.BoughtItems)
+                .Include(o => o.Owner)     
                 .ToList();
         }
 
         public Order GetOrderDetails(Guid id)
         {
             return context.Orders
-                .Include(o => o.Tickets)
-                .ThenInclude(t => t.Track)
+                .Include(o => o.BoughtItems)
                 .Include(o => o.Owner)
                 .FirstOrDefault(o => o.Id == id);
         }
 
-        public Order CreateOrder(string userId, ICollection<Ticket> tickets)
+        public Order CreateOrder(string userId, ICollection<BoughtItem> boughtItems)
         {
             var order = new Order
             {
                 OwnerId = userId,
-                Tickets = tickets,
-                // Optionally, you can also handle timestamps or other order-related properties here.
+                BoughtItems = boughtItems,
+                CreatedAt = DateTime.Now,
             };
 
             context.Orders.Add(order);
             context.SaveChanges();
 
-            // Add purchased tracks to the user's playlist
-            AddTracksToPlaylist(userId, tickets);
+            return order;
+        }
+
+        public Order DeleteOrder(Guid id)
+        {
+            var order = context.Orders.Include(o => o.BoughtItems).FirstOrDefault(o => o.Id == id);
+
+            if (order != null)
+            {
+                context.Orders.Remove(order);
+                context.SaveChanges();
+            }
 
             return order;
         }
 
-        public void AddTracksToPlaylist(string userId, ICollection<Ticket> tickets)
+        public void DeleteAllOrders()
         {
-            // Check if the user has a playlist
-            var userPlaylist = context.UserPlaylists
-                .FirstOrDefault(p => p.UserId == userId);
-
-            if (userPlaylist != null)
-            {
-                // Add the purchased tracks to the playlist
-                foreach (var ticket in tickets)
-                {
-                    if (!userPlaylist.Tracks.Contains(ticket.Track))
-                    {
-                        userPlaylist.Tracks.Add(ticket.Track);
-                    }
-                }
-            }
-            else
-            {
-                // If the user doesn't have a playlist, create one and add tracks
-                var newPlaylist = new UserPlaylist
-                {
-                    UserId = userId,
-                    Tracks = tickets.Select(t => t.Track).ToList()
-                };
-
-                context.UserPlaylists.Add(newPlaylist);
-            }
-
+            context.Orders.RemoveRange(context.Orders.Include(o => o.BoughtItems).ToList());
             context.SaveChanges();
         }
     }

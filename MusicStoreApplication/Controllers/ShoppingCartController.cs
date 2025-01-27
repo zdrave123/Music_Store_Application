@@ -12,12 +12,14 @@ namespace MusicStore.Web.Controllers
         private readonly IShoppingCartService _shoppingCartService;
         private readonly IAlbumService _albumService;
         private readonly ITrackService _trackService;
+        private readonly IOrderService _orderService;
 
-        public ShoppingCartController(IShoppingCartService shoppingCartService, IAlbumService albumService, ITrackService trackService)
+        public ShoppingCartController(IOrderService orderService, IShoppingCartService shoppingCartService, IAlbumService albumService, ITrackService trackService)
         {
             _shoppingCartService = shoppingCartService;
             _albumService = albumService;
             _trackService = trackService;
+            _orderService = orderService;
         }
 
         public IActionResult ViewCart()
@@ -79,8 +81,12 @@ namespace MusicStore.Web.Controllers
         public IActionResult Checkout(List<BoughtItem> BoughtItems)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? null;
+            var order = _orderService.CreateOrder(userId, BoughtItems);
             _shoppingCartService.BuyTracks(userId, BoughtItems);
-            return RedirectToAction("ManagePlaylists", "UserPlaylist");
+            
+            _shoppingCartService.ClearCart(userId);
+            /*return RedirectToAction("ManagePlaylists", "UserPlaylist");*/
+            return RedirectToAction("Details", "Order", new { id = order.Id });
         }
 
     }

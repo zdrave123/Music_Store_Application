@@ -11,7 +11,8 @@ namespace MusicStore.Service.Interface
     {
         List<Order> GetAllOrders();
         Order GetOrderDetails(Guid orderId);
-        Order CreateOrder(string userId, ICollection<Ticket> tickets);
-        void AddTracksToPlaylist(string userId, ICollection<Ticket> tickets);
+        Order CreateOrder(string userId, ICollection<BoughtItem> boughtItems);
+        Order DeleteOrder(Guid id);
+        void DeleteAllOrders();
     }
 }

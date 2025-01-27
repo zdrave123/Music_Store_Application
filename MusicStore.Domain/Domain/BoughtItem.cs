@@ -14,5 +14,8 @@ namespace MusicStore.Domain.Domain
 
         public int Price { get; set; }
 
+        public Guid OrderId { get; set; } 
+        public Order Order { get; set; }
+
     }
 }

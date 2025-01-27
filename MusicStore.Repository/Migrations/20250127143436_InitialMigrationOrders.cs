@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MusicStore.Repository.Migrations
 {
     /// <inheritdoc />
-    public partial class mig1 : Migration
+    public partial class InitialMigrationOrders : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,21 +36,6 @@ namespace MusicStore.Repository.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BoughtItems",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProductType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BoughtItems", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -224,7 +209,8 @@ namespace MusicStore.Repository.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -256,13 +242,60 @@ namespace MusicStore.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserPlaylists",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    MusicStoreApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserPlaylists", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserPlaylists_AspNetUsers_MusicStoreApplicationUserId",
+                        column: x => x.MusicStoreApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_UserPlaylists_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BoughtItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BoughtItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BoughtItems_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Ticket",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TrackId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
-                    Rating = table.Column<double>(type: "float", nullable: false, defaultValue: 0.0),
+                    Rating = table.Column<double>(type: "float", nullable: false),
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -280,37 +313,6 @@ namespace MusicStore.Repository.Migrations
                         principalTable: "Tracks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserPlaylists",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    MusicStoreApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserPlaylists", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserPlaylists_AspNetUsers_MusicStoreApplicationUserId",
-                        column: x => x.MusicStoreApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_UserPlaylists_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_UserPlaylists_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -337,6 +339,30 @@ namespace MusicStore.Repository.Migrations
                         name: "FK_CartItems_ShoppingCarts_ShoppingCartId",
                         column: x => x.ShoppingCartId,
                         principalTable: "ShoppingCarts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TrackUserPlaylist",
+                columns: table => new
+                {
+                    PlaylistsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TracksId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TrackUserPlaylist", x => new { x.PlaylistsId, x.TracksId });
+                    table.ForeignKey(
+                        name: "FK_TrackUserPlaylist_Tracks_TracksId",
+                        column: x => x.TracksId,
+                        principalTable: "Tracks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TrackUserPlaylist_UserPlaylists_PlaylistsId",
+                        column: x => x.PlaylistsId,
+                        principalTable: "UserPlaylists",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -372,44 +398,20 @@ namespace MusicStore.Repository.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "TrackUserPlaylist",
-                columns: table => new
-                {
-                    PlaylistsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TracksId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TrackUserPlaylist", x => new { x.PlaylistsId, x.TracksId });
-                    table.ForeignKey(
-                        name: "FK_TrackUserPlaylist_Tracks_TracksId",
-                        column: x => x.TracksId,
-                        principalTable: "Tracks",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TrackUserPlaylist_UserPlaylists_PlaylistsId",
-                        column: x => x.PlaylistsId,
-                        principalTable: "UserPlaylists",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "Artists",
                 columns: new[] { "Id", "Bio", "Name" },
-                values: new object[] { new Guid("41101faf-c697-4b4b-943a-240a22de89aa"), "A legendary rock band.", "Pink Floyd" });
+                values: new object[] { new Guid("adc79403-3483-448d-9b4e-5fdf8f268fbc"), "A legendary rock band.", "Pink Floyd" });
 
             migrationBuilder.InsertData(
                 table: "Albums",
                 columns: new[] { "Id", "ArtistId", "Price", "ReleaseDate", "Title" },
-                values: new object[] { new Guid("79af7f31-a7fd-4d1b-8323-35cee4e4b90b"), new Guid("41101faf-c697-4b4b-943a-240a22de89aa"), 0, new DateTime(1973, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Dark Side of the Moon" });
+                values: new object[] { new Guid("1a770b5c-a143-4b79-abcf-48352fb68abf"), new Guid("adc79403-3483-448d-9b4e-5fdf8f268fbc"), 0, new DateTime(1973, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Dark Side of the Moon" });
 
             migrationBuilder.InsertData(
                 table: "Tracks",
                 columns: new[] { "Id", "AlbumId", "ArtistId", "Duration", "Price", "Title" },
-                values: new object[] { new Guid("a12a0838-4ee4-4c0c-b7fe-8c1adb41a2f1"), new Guid("79af7f31-a7fd-4d1b-8323-35cee4e4b90b"), new Guid("41101faf-c697-4b4b-943a-240a22de89aa"), new TimeSpan(0, 0, 3, 0, 0), 0, "Stoned" });
+                values: new object[] { new Guid("18bb4696-614c-4d62-ae54-81f034f34283"), new Guid("1a770b5c-a143-4b79-abcf-48352fb68abf"), new Guid("adc79403-3483-448d-9b4e-5fdf8f268fbc"), new TimeSpan(0, 0, 3, 0, 0), 0, "Stoned" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Albums_ArtistId",
@@ -459,6 +461,11 @@ namespace MusicStore.Repository.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoughtItems_OrderId",
+                table: "BoughtItems",
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CartItems_MusicStoreApplicationUserId",
@@ -524,11 +531,6 @@ namespace MusicStore.Repository.Migrations
                 name: "IX_UserPlaylists_MusicStoreApplicationUserId",
                 table: "UserPlaylists",
                 column: "MusicStoreApplicationUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserPlaylists_OrderId",
-                table: "UserPlaylists",
-                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserPlaylists_UserId",
@@ -611,10 +613,10 @@ namespace MusicStore.Repository.Migrations
                 name: "UserPlaylists");
 
             migrationBuilder.DropTable(
-                name: "Tracks");
+                name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Tracks");
 
             migrationBuilder.DropTable(
                 name: "Albums");

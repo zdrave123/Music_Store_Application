@@ -12,8 +12,8 @@ using MusicStoreApplication.Repository;
 namespace MusicStore.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250126165454_mig1")]
-    partial class mig1
+    [Migration("20250127143436_InitialMigrationOrders")]
+    partial class InitialMigrationOrders
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -190,8 +190,8 @@ namespace MusicStore.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("79af7f31-a7fd-4d1b-8323-35cee4e4b90b"),
-                            ArtistId = new Guid("41101faf-c697-4b4b-943a-240a22de89aa"),
+                            Id = new Guid("1a770b5c-a143-4b79-abcf-48352fb68abf"),
+                            ArtistId = new Guid("adc79403-3483-448d-9b4e-5fdf8f268fbc"),
                             Price = 0,
                             ReleaseDate = new DateTime(1973, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Dark Side of the Moon"
@@ -219,7 +219,7 @@ namespace MusicStore.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("41101faf-c697-4b4b-943a-240a22de89aa"),
+                            Id = new Guid("adc79403-3483-448d-9b4e-5fdf8f268fbc"),
                             Bio = "A legendary rock band.",
                             Name = "Pink Floyd"
                         });
@@ -229,6 +229,9 @@ namespace MusicStore.Repository.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Price")
@@ -247,6 +250,8 @@ namespace MusicStore.Repository.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OrderId");
+
                     b.ToTable("BoughtItems");
                 });
 
@@ -255,6 +260,9 @@ namespace MusicStore.Repository.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(450)");
@@ -330,9 +338,7 @@ namespace MusicStore.Repository.Migrations
                         .HasColumnType("float");
 
                     b.Property<double>("Rating")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("float")
-                        .HasDefaultValue(0.0);
+                        .HasColumnType("float");
 
                     b.Property<Guid>("TrackId")
                         .HasColumnType("uniqueidentifier");
@@ -406,9 +412,9 @@ namespace MusicStore.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a12a0838-4ee4-4c0c-b7fe-8c1adb41a2f1"),
-                            AlbumId = new Guid("79af7f31-a7fd-4d1b-8323-35cee4e4b90b"),
-                            ArtistId = new Guid("41101faf-c697-4b4b-943a-240a22de89aa"),
+                            Id = new Guid("18bb4696-614c-4d62-ae54-81f034f34283"),
+                            AlbumId = new Guid("1a770b5c-a143-4b79-abcf-48352fb68abf"),
+                            ArtistId = new Guid("adc79403-3483-448d-9b4e-5fdf8f268fbc"),
                             Duration = new TimeSpan(0, 0, 3, 0, 0),
                             Price = 0,
                             Title = "Stoned"
@@ -428,17 +434,12 @@ namespace MusicStore.Repository.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<Guid?>("OrderId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("MusicStoreApplicationUserId");
-
-                    b.HasIndex("OrderId");
 
                     b.HasIndex("UserId");
 
@@ -601,6 +602,17 @@ namespace MusicStore.Repository.Migrations
                     b.Navigation("Artist");
                 });
 
+            modelBuilder.Entity("MusicStore.Domain.Domain.BoughtItem", b =>
+                {
+                    b.HasOne("MusicStore.Domain.Domain.Order", "Order")
+                        .WithMany("BoughtItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("MusicStore.Domain.Domain.Order", b =>
                 {
                     b.HasOne("MusicStore.Domain.Identity.MusicStoreApplicationUser", "Owner")
@@ -639,7 +651,7 @@ namespace MusicStore.Repository.Migrations
             modelBuilder.Entity("MusicStore.Domain.Domain.Ticket", b =>
                 {
                     b.HasOne("MusicStore.Domain.Domain.Order", "Order")
-                        .WithMany("Tickets")
+                        .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -703,10 +715,6 @@ namespace MusicStore.Repository.Migrations
                         .WithMany("MyPlaylists")
                         .HasForeignKey("MusicStoreApplicationUserId");
 
-                    b.HasOne("MusicStore.Domain.Domain.Order", null)
-                        .WithMany("UserPlaylists")
-                        .HasForeignKey("OrderId");
-
                     b.HasOne("MusicStore.Domain.Identity.MusicStoreApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -753,9 +761,7 @@ namespace MusicStore.Repository.Migrations
 
             modelBuilder.Entity("MusicStore.Domain.Domain.Order", b =>
                 {
-                    b.Navigation("Tickets");
-
-                    b.Navigation("UserPlaylists");
+                    b.Navigation("BoughtItems");
                 });
 
             modelBuilder.Entity("MusicStore.Domain.Domain.ShoppingCart", b =>

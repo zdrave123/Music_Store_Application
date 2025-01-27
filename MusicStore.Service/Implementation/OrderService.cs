@@ -30,27 +30,27 @@ namespace MusicStore.Service.Implementation
             return orderRepository.GetOrderDetails(orderId);
         }
 
-        public Order CreateOrder(string userId, ICollection<Ticket> tickets)
+        public Order CreateOrder(string userId, ICollection<BoughtItem> boughtItems)
         {
-            // Optionally, check if the user exists and handle errors.
+           
             var user = userRepository.Get(userId);
             if (user == null)
             {
                 throw new ArgumentException("User not found.");
             }
 
-            // Create the order
-            var order = orderRepository.CreateOrder(userId, tickets);
-
-            // After order creation, tracks are added to the user's playlist.
-            AddTracksToPlaylist(userId, tickets);
-
-            return order;
+            
+            return orderRepository.CreateOrder(userId, boughtItems);
         }
 
-        public void AddTracksToPlaylist(string userId, ICollection<Ticket> tickets)
+        public Order DeleteOrder(Guid id)
         {
-            orderRepository.AddTracksToPlaylist(userId, tickets);
+            return orderRepository.DeleteOrder(id);
+        }
+
+        public void DeleteAllOrders()
+        {
+            orderRepository.DeleteAllOrders();
         }
     }
 }
