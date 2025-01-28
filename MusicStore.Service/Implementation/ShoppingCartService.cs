@@ -77,9 +77,12 @@ namespace MusicStore.Service.Implementation
         {
            
           
-            return _boughtItemRepository.GetAll().ToList();
-            
-          
+            return _boughtItemRepository.GetAll()
+                    .GroupBy(i => i.ProductId)
+                    .Select(g => g.First())
+                    .ToList();
+
+
         }
 
         public void AddItemToCart(string userId, ShoppingCartItem item)

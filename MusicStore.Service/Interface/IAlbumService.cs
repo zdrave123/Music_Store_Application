@@ -12,8 +12,8 @@ namespace MusicStore.Service.Interface
     {
         List<Album> GetAllAlbums();  // Get all albums
         Album GetDetailsForAlbum(Guid? id);  // Get details for a specific album
-        void CreateAlbum(string title, DateTime releaseDate, Guid artistId, int price);   // Create a new album
-        void UpdateAlbum(Guid id, string title, DateTime releaseDate, int price);  // Update an existing album
+        void CreateAlbum(string title, DateTime releaseDate, Guid artistId, int price, string AlbumImageUrl);   // Create a new album
+        void UpdateAlbum(Guid id, string title, DateTime releaseDate, int price, string AlbumImageUrl);  // Update an existing album
         void DeleteAlbum(Guid id);  // Delete an album
 
         Album GetAlbumById(Guid albumId);  // Get album by ID

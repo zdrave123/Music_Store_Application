@@ -20,6 +20,12 @@
     </div>
 
     <div class="form-group">
+        <label for="AlbumImageUrl">Image</label>
+        <input type="text" id="AlbumImageUrl" name="AlbumImageUrl" class="form-control" />
+        <span asp-validation-for="AlbumImageUrl" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
         <label for="ArtistId">Artist</label>
         <select id="ArtistId" name="artistId" class="form-control">
             <option value="">-- Select Artist --</option>

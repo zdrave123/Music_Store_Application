@@ -101,23 +101,23 @@ namespace MusicStore.Web.Controllers
         // POST: Tracks/Edit/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Guid id, string title, TimeSpan duration, int price)
+        public IActionResult Edit(Guid id, string title, TimeSpan duration, int price, string TrackImageUrl)
         {
             if (string.IsNullOrWhiteSpace(title) || duration.TotalSeconds <= 0)
             {
                 ModelState.AddModelError(string.Empty, "Invalid input data.");
-                return View(new Track { Id = id, Title = title, Duration = duration, Price = price });
+                return View(new Track { Id = id, Title = title, Duration = duration, Price = price, TrackImageUrl = TrackImageUrl });
             }
 
             try
             {
-                var updatedTrack = _trackService.UpdateTrack(id, title, duration, price);
+                var updatedTrack = _trackService.UpdateTrack(id, title, duration, price, TrackImageUrl);
                 return RedirectToAction(nameof(Index), new { albumId = updatedTrack.AlbumId });
             }
             catch (ArgumentException ex)
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
-                return View(new Track { Id = id, Title = title, Duration = duration, Price = price });
+                return View(new Track { Id = id, Title = title, Duration = duration, Price = price, TrackImageUrl = TrackImageUrl });
             }
         }
         // GET: Tracks/Delete/{id}

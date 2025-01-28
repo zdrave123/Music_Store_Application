@@ -25,5 +25,8 @@ namespace MusicStore.Domain.DTO
 
             [Required]
             public int Price { get; set; }
+
+            [Required]
+            public string? TrackImageUrl { get; set; }
         }
 }

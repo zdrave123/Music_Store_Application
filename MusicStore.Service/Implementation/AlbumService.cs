@@ -20,14 +20,13 @@ namespace MusicStore.Service.Implementation
         private readonly ITrackRepository _trackRepository;
         private readonly IShoppingCartRepository _shoppingCartRepository;
         private readonly IShoppingCartService _shoppingCartService;
-        private readonly IRepository<Ticket> _ticketRepository;
+      
 
-        public AlbumService(IShoppingCartService shoppingCartService, IAlbumRepository albumRepository, ITrackRepository trackRepository, IShoppingCartRepository shoppingCartRepository, IRepository<Ticket> repository)
+        public AlbumService(IShoppingCartService shoppingCartService, IAlbumRepository albumRepository, ITrackRepository trackRepository, IShoppingCartRepository shoppingCartRepository)
         {
             _albumRepository = albumRepository;
             _trackRepository = trackRepository;
             _shoppingCartRepository = shoppingCartRepository;
-            _ticketRepository = repository;
             _shoppingCartService = shoppingCartService;
         }
 
@@ -40,7 +39,7 @@ namespace MusicStore.Service.Implementation
         {
             return _albumRepository.Get(id.Value);  // Get details of a specific album
         }
-        public void CreateAlbum(string title, DateTime releaseDate, Guid artistId, int price)
+        public void CreateAlbum(string title, DateTime releaseDate, Guid artistId, int price, string AlbumImageUrl)
         {
             // Perform validation and throw exceptions for invalid input
             if (string.IsNullOrWhiteSpace(title))
@@ -65,13 +64,14 @@ namespace MusicStore.Service.Implementation
                 Title = title,
                 ReleaseDate = releaseDate,
                 ArtistId = artistId,
-                Price = price
+                Price = price,
+                AlbumImageUrl = AlbumImageUrl,
             };
 
             _albumRepository.Insert(album);
         }
 
-        public void UpdateAlbum(Guid id, string title, DateTime releaseDate, int price)
+        public void UpdateAlbum(Guid id, string title, DateTime releaseDate, int price, string AlbumImageUrl)
         {
             if (string.IsNullOrWhiteSpace(title))
             {
@@ -93,6 +93,7 @@ namespace MusicStore.Service.Implementation
             album.Title = title;
             album.ReleaseDate = releaseDate;
             album.Price = price;
+            album.AlbumImageUrl = AlbumImageUrl;
 
             _albumRepository.Update(album);
         }

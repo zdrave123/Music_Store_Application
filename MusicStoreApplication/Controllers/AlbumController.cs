@@ -48,12 +48,12 @@ namespace MusicStore.Web.Controllers
         // POST: Album/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(string title, DateTime releaseDate, Guid artistId, int price)
+        public IActionResult Create(string title, DateTime releaseDate, Guid artistId, int price, string AlbumImageUrl)
         {
             try
             {
                 // Call the service to create the album
-                _albumService.CreateAlbum(title, releaseDate, artistId, price);
+                _albumService.CreateAlbum(title, releaseDate, artistId, price, AlbumImageUrl);
                 return RedirectToAction(nameof(Index));
             }
             catch (ArgumentException ex)
@@ -115,12 +115,12 @@ namespace MusicStore.Web.Controllers
         // POST: Album/Edit/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Guid id, string title, DateTime releaseDate, int price)
+        public IActionResult Edit(Guid id, string title, DateTime releaseDate, int price, string AlbumImageUrl)
         {
             try
             {
                 // Update only the editable fields
-                _albumService.UpdateAlbum(id, title, releaseDate, price);
+                _albumService.UpdateAlbum(id, title, releaseDate, price, AlbumImageUrl);
                 return RedirectToAction(nameof(Index));
             }
             catch (ArgumentException ex)

@@ -12,10 +12,9 @@ namespace MusicStoreApplication.Repository
             : base(options)
         {
         }
-        /*public DbSet<Ticket> Tickets { get; set; }*/
+       
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<Order> Orders { get; set; }
-        /*public DbSet<TicketInShoppingCart> TicketInShoppingCarts { get; set; }*/
  
         public DbSet<Album> Albums { get; set; }
        
@@ -107,43 +106,6 @@ namespace MusicStoreApplication.Repository
                     .HasForeignKey(tisc => tisc.ShoppingCartId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
-
-            // Ticket Configuration
-            /*modelBuilder.Entity<Ticket>(entity =>
-            {
-                entity.HasKey(t => t.Id);
-
-                entity.Property(t => t.Price)
-                    .IsRequired();
-
-                entity.Property(t => t.Rating)
-                    .IsRequired()
-                    .HasDefaultValue(0);
-
-                entity.HasOne(t => t.Track)
-                    .WithMany()
-                    .HasForeignKey(t => t.TrackId);
-
-                entity.HasMany(t => t.ProductsInShoppingCart)
-                    .WithOne(tisc => tisc.Ticket)
-                    .HasForeignKey(tisc => tisc.TicketId);
-            });*/
-
-            // TicketInShoppingCart Configuration
-            /*modelBuilder.Entity<TicketInShoppingCart>(entity =>
-            {
-                entity.HasKey(tisc => tisc.Id);
-
-                entity.HasOne(tisc => tisc.Ticket)
-                    .WithMany(t => t.ProductsInShoppingCart)
-                    .HasForeignKey(tisc => tisc.TicketId)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(tisc => tisc.ShoppingCart)
-                    .WithMany(sc => sc.Items)
-                    .HasForeignKey(tisc => tisc.ShoppingCartId)
-                    .OnDelete(DeleteBehavior.Cascade);
-            });*/
 
             modelBuilder.Entity<Track>(entity =>
             {

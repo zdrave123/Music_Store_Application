@@ -13,14 +13,12 @@ namespace MusicStore.Service.Implementation
     public class TrackService : ITrackService
     {
         private readonly ITrackRepository _trackRepository;
-        private readonly IRepository<Ticket> _ticketRepository;
         private readonly IArtistRepository _artistRepository;
         private readonly IAlbumRepository _albumRepository;
 
-        public TrackService(ITrackRepository trackRepository, IRepository<Ticket> ticketRepository, IArtistRepository artistRepository, IAlbumRepository albumRepository)
+        public TrackService(ITrackRepository trackRepository, IArtistRepository artistRepository, IAlbumRepository albumRepository)
         {
             _trackRepository = trackRepository;
-            _ticketRepository = ticketRepository;
             _artistRepository = artistRepository;
             _albumRepository = albumRepository;
         }
@@ -81,7 +79,7 @@ namespace MusicStore.Service.Implementation
             // Use the repository to insert the track
             return _trackRepository.AddTrack(song);
         }
-        public Track UpdateTrack(Guid trackId, string title, TimeSpan duration, int price)
+        public Track UpdateTrack(Guid trackId, string title, TimeSpan duration, int price, string TrackImageUrl)
         {
             var track = _trackRepository.GetTrackById(trackId);
             if(track == null)
@@ -91,6 +89,7 @@ namespace MusicStore.Service.Implementation
             track.Title = title;
             track.Duration = duration;
             track.Price = price;
+            track.TrackImageUrl = TrackImageUrl;
             _trackRepository.UpdateTrack(track);
             return track;
         }

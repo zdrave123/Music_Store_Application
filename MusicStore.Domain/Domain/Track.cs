@@ -19,6 +19,8 @@ namespace MusicStore.Domain.Domain
         public Artist Artist { get; set; } = null!;
 
         public int Price { get; set; }
+
+        public string? TrackImageUrl { get; set; }
         public ICollection<UserPlaylist>? Playlists { get; set; }
     }
 

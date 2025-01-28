@@ -14,7 +14,7 @@ namespace MusicStore.Service.Interface
         Track GetTrackById(Guid trackId);
         /*Ticket GetTicketForTrack(Guid trackId);*/
         Track CreateTrack(TrackCreateViewModel track);
-        Track UpdateTrack(Guid trackId, string title, TimeSpan duration, int price);
+        Track UpdateTrack(Guid trackId, string title, TimeSpan duration, int price, string TrackImageUrl);
         void DeleteTrack(Guid trackId);
         IEnumerable<Track> GetAllTracks();
     }

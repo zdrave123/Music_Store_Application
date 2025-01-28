@@ -128,7 +128,7 @@ namespace MusicStore.Web.Controllers
                 return NotFound();
             }
 
-            _playlistService.RemoveTrackFromBoughtItems(id);
+            _playlistService.RemoveItemFromBoughtItems(id);
             return RedirectToAction("ManagePlaylists"); 
         }
 
@@ -142,7 +142,7 @@ namespace MusicStore.Web.Controllers
                 return NotFound();
             }
             
-            _playlistService.RemoveAlbumFromBoughtItems(id);
+            _playlistService.RemoveItemFromBoughtItems(id);
             
             return RedirectToAction("ManagePlaylists");
         }

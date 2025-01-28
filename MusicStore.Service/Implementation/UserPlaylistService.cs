@@ -1,6 +1,7 @@
 ﻿using MusicStore.Domain.Domain;
 using MusicStore.Repository.Interface;
 using MusicStore.Service.Interface;
+using NuGet.DependencyResolver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -108,16 +109,18 @@ namespace MusicStore.Service.Implementation
             return playlistRepositoryNew.GetPlaylistById(playlistId);
         }
 
-        public void RemoveTrackFromBoughtItems(Guid trackId)
+        public void RemoveItemFromBoughtItems(Guid id)
         {
-            
-            _boughtItemRepository.Delete(_boughtItemRepository.GetAll().FirstOrDefault(i => i.ProductId == trackId));
-            
-        }
 
-        public void RemoveAlbumFromBoughtItems(Guid id)
-        {
-            _boughtItemRepository.Delete(_boughtItemRepository.GetAll().FirstOrDefault(i => i.ProductId == id));
+            var itemsToDelete = _boughtItemRepository.GetAll()
+                                        .Where(i => i.ProductId == id)
+                                        .ToList();
+
+            
+            foreach (var item in itemsToDelete)
+            {
+                _boughtItemRepository.Delete(item);
+            }
         }
     }
 }
