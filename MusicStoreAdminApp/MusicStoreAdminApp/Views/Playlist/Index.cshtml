@@ -1,0 +1,45 @@
+﻿@model List<MusicStoreAdminApp.Models.UserPlaylist>
+
+@{
+    ViewData["Title"] = "Playlists";
+}
+
+<h2>Playlists</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>User ID</th>
+            <th>Number of Tracks</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var playlist in Model)
+            {
+                <tr>
+                    <td>@playlist.Id</td>
+                    <td>@playlist.Name</td>
+                    <td>@playlist.UserId</td>
+                    <td>@(playlist.Tracks?.Count ?? 0)</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@playlist.Id" class="btn btn-info">Details</a>
+                    </td>
+                    <td>
+                        <a asp-action="CreateInvoice" asp-route-id="@playlist.Id" class="btn btn-info">Create Invoice</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5">No playlists found</td>
+            </tr>
+        }
+    </tbody>
+</table>

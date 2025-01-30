@@ -1,0 +1,66 @@
+﻿@model MusicStoreAdminApp.Models.UserPlaylist
+
+@{
+    ViewData["Title"] = "Playlist Details";
+}
+
+<h2>Playlist Details</h2>
+
+@if (Model != null)
+{
+    <div class="card">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">ID</dt>
+                <dd class="col-sm-9">@Model.Id</dd>
+
+                <dt class="col-sm-3">Playlist Name</dt>
+                <dd class="col-sm-9">@(Model.Name ?? "No name")</dd>
+
+                <dt class="col-sm-3">User ID</dt>
+                <dd class="col-sm-9">@(Model.UserId ?? "No user")</dd>
+
+                <dt class="col-sm-3">Number of Tracks</dt>
+                <dd class="col-sm-9">@(Model.Tracks?.Count ?? 0)</dd>
+            </dl>
+
+            @if (Model.Tracks != null && Model.Tracks.Any())
+            {
+                <h4>Tracks in Playlist</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Artist</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var track in Model.Tracks)
+                        {
+                            <tr>
+                                <td>@track.Title</td>
+                                <td>@track.Artist</td>
+                                <td>@track.Duration</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No tracks in this playlist</p>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        <p>Playlist not found or could not be loaded.</p>
+    </div>
+}
+
+<div class="mt-3">
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using MusicStoreAdminApp.Models;
+
+
+namespace MusicStore.Domain.Identity
+{
+    public class MusicStoreApplicationUser : IdentityUser
+    {
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? Address { get; set; }
+
+        // Relationships to shopping cart and tickets
+        public ShoppingCart? UserCart { get; set; }
+
+        // User's playlists (new addition for the current version)
+        public virtual ICollection<UserPlaylist>? MyPlaylists { get; set; }
+
+        // Tracks the user has bought or listened to (optional)
+        public virtual ICollection<ShoppingCartItem>? PurchasedTracks { get; set; }
+    }
+}
