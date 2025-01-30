@@ -10,7 +10,7 @@ namespace MusicStore.Repository.Interface
     public interface IOrderRepository
     {
         List<Order> GetAllOrders();
-        Order GetOrderDetails(Guid id); 
+        Order GetOrderDetails(BaseEntity id); 
         Order CreateOrder(string userId, ICollection<BoughtItem> boughtItems);
         Order DeleteOrder(Guid id);
         void DeleteAllOrders();

@@ -190,8 +190,8 @@ namespace MusicStore.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("bbb30868-029c-480e-b3a5-af14d0089215"),
-                            ArtistId = new Guid("bc3227f1-3dc7-4e88-9daa-8f54efc22e74"),
+                            Id = new Guid("18082d0e-56af-4ab2-b211-333089cfee0e"),
+                            ArtistId = new Guid("e061d9d3-9497-4908-91ed-5804b029590a"),
                             Price = 0,
                             ReleaseDate = new DateTime(1973, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Dark Side of the Moon"
@@ -219,7 +219,7 @@ namespace MusicStore.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("bc3227f1-3dc7-4e88-9daa-8f54efc22e74"),
+                            Id = new Guid("e061d9d3-9497-4908-91ed-5804b029590a"),
                             Bio = "A legendary rock band.",
                             Name = "Pink Floyd"
                         });
@@ -362,9 +362,9 @@ namespace MusicStore.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e3406ef3-62a6-4583-87da-e6cea5df3beb"),
-                            AlbumId = new Guid("bbb30868-029c-480e-b3a5-af14d0089215"),
-                            ArtistId = new Guid("bc3227f1-3dc7-4e88-9daa-8f54efc22e74"),
+                            Id = new Guid("30e20066-026d-4f3e-a66a-a3f4f3f6c9f3"),
+                            AlbumId = new Guid("18082d0e-56af-4ab2-b211-333089cfee0e"),
+                            ArtistId = new Guid("e061d9d3-9497-4908-91ed-5804b029590a"),
                             Duration = new TimeSpan(0, 0, 3, 0, 0),
                             Price = 0,
                             Title = "Stoned"

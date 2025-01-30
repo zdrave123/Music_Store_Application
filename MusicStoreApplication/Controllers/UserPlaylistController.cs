@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MusicStore.Domain.Domain;
 using MusicStore.Domain.DTO;
 using MusicStore.Service.Implementation;
 using MusicStore.Service.Interface;
@@ -52,8 +53,13 @@ namespace MusicStore.Web.Controllers
         public IActionResult AddTrackToPlaylist(Guid playlistId, Guid trackId)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-           
-            _playlistService.AddTrackToPlaylist(playlistId, trackId, userId);
+
+            var model = new BaseEntity
+            {
+                Id = playlistId
+            };
+
+            _playlistService.AddTrackToPlaylist(model, trackId, userId);
             
             return RedirectToAction("ManagePlaylists");
         }
@@ -64,9 +70,13 @@ namespace MusicStore.Web.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var albumTracks = _albumService.GetTracksForAlbum(albumId);
+            var model = new BaseEntity
+            {
+                Id = playlistId
+            };
             foreach (var track in albumTracks)
             {
-                _playlistService.AddTrackToPlaylist(playlistId, track.Id, userId);
+                _playlistService.AddTrackToPlaylist(model, track.Id, userId);
             }
             return RedirectToAction("ManagePlaylists");
         }
@@ -81,14 +91,22 @@ namespace MusicStore.Web.Controllers
 
         public IActionResult PlaylistDetails(Guid playlistId)
         {
-            var playlist = _playlistService.GetPlaylistDetails(playlistId);
+            var model = new BaseEntity
+            {
+                Id = playlistId
+            };
+            var playlist = _playlistService.GetPlaylistDetails(model);
             return View(playlist);
         }
 
         [HttpPost]
         public IActionResult RemoveTrackFromPlaylist(Guid playlistId, Guid trackId)
         {
-            _playlistService.RemoveTrackFromPlaylist(playlistId, trackId);
+            var model = new BaseEntity
+            {
+                Id = playlistId
+            };
+            _playlistService.RemoveTrackFromPlaylist(model, trackId);
 
             return RedirectToAction("PlaylistDetails", new { playlistId = playlistId });
         }

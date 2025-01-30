@@ -11,17 +11,15 @@ namespace MusicStore.Web.Controllers.Api
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IPlaylistRepository _playlistRepository;
-        private readonly IAlbumRepository _albumRepository;
-        private readonly IArtistRepository _artistRepository;
-        private readonly ITrackRepository _trackRepository;
 
-        public AdminController(IOrderRepository orderRepository, IPlaylistRepository playlistRepository, IAlbumRepository albumRepository, IArtistRepository artistRepository, ITrackRepository trackRepository)
+        private readonly IArtistRepository _artistRepository;
+
+
+        public AdminController(IOrderRepository orderRepository, IPlaylistRepository playlistRepository, IArtistRepository artistRepository)
         {
             _orderRepository = orderRepository;
             _playlistRepository = playlistRepository;
-            _albumRepository = albumRepository;
             _artistRepository = artistRepository;
-            _trackRepository = trackRepository;
         }
 
         [HttpGet("GetOrderList")]
@@ -31,7 +29,7 @@ namespace MusicStore.Web.Controllers.Api
         }
 
         [HttpPost("[action]")]
-        public Order OrderDetails(Guid id)
+        public Order OrderDetails(BaseEntity id)
         {
             return _orderRepository.GetOrderDetails(id);
         }
@@ -43,7 +41,7 @@ namespace MusicStore.Web.Controllers.Api
         }
 
         [HttpPost("[action]")]
-        public UserPlaylist PlaylistDetails(Guid id)
+        public UserPlaylist PlaylistDetails(BaseEntity id)
         {
             return _playlistRepository.GetPlaylistById(id);
         }

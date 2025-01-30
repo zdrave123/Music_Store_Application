@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MusicStore.Repository.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigrationOrders : Migration
+    public partial class mig2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -46,7 +46,8 @@ namespace MusicStore.Repository.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ArtistId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false)
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    AlbumImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -89,7 +90,8 @@ namespace MusicStore.Repository.Migrations
                     Duration = table.Column<TimeSpan>(type: "time", nullable: false),
                     AlbumId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ArtistId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false)
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    TrackImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -289,33 +291,6 @@ namespace MusicStore.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Ticket",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TrackId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Price = table.Column<double>(type: "float", nullable: false),
-                    Rating = table.Column<double>(type: "float", nullable: false),
-                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Ticket", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Ticket_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Ticket_Tracks_TrackId",
-                        column: x => x.TrackId,
-                        principalTable: "Tracks",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CartItems",
                 columns: table => new
                 {
@@ -367,51 +342,20 @@ namespace MusicStore.Repository.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "TicketInShoppingCart",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TicketId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ShoppingCartId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    MusicStoreApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TicketInShoppingCart", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TicketInShoppingCart_AspNetUsers_MusicStoreApplicationUserId",
-                        column: x => x.MusicStoreApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_TicketInShoppingCart_ShoppingCarts_ShoppingCartId",
-                        column: x => x.ShoppingCartId,
-                        principalTable: "ShoppingCarts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TicketInShoppingCart_Ticket_TicketId",
-                        column: x => x.TicketId,
-                        principalTable: "Ticket",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "Artists",
                 columns: new[] { "Id", "Bio", "Name" },
-                values: new object[] { new Guid("adc79403-3483-448d-9b4e-5fdf8f268fbc"), "A legendary rock band.", "Pink Floyd" });
+                values: new object[] { new Guid("e061d9d3-9497-4908-91ed-5804b029590a"), "A legendary rock band.", "Pink Floyd" });
 
             migrationBuilder.InsertData(
                 table: "Albums",
-                columns: new[] { "Id", "ArtistId", "Price", "ReleaseDate", "Title" },
-                values: new object[] { new Guid("1a770b5c-a143-4b79-abcf-48352fb68abf"), new Guid("adc79403-3483-448d-9b4e-5fdf8f268fbc"), 0, new DateTime(1973, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Dark Side of the Moon" });
+                columns: new[] { "Id", "AlbumImageUrl", "ArtistId", "Price", "ReleaseDate", "Title" },
+                values: new object[] { new Guid("18082d0e-56af-4ab2-b211-333089cfee0e"), null, new Guid("e061d9d3-9497-4908-91ed-5804b029590a"), 0, new DateTime(1973, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Dark Side of the Moon" });
 
             migrationBuilder.InsertData(
                 table: "Tracks",
-                columns: new[] { "Id", "AlbumId", "ArtistId", "Duration", "Price", "Title" },
-                values: new object[] { new Guid("18bb4696-614c-4d62-ae54-81f034f34283"), new Guid("1a770b5c-a143-4b79-abcf-48352fb68abf"), new Guid("adc79403-3483-448d-9b4e-5fdf8f268fbc"), new TimeSpan(0, 0, 3, 0, 0), 0, "Stoned" });
+                columns: new[] { "Id", "AlbumId", "ArtistId", "Duration", "Price", "Title", "TrackImageUrl" },
+                values: new object[] { new Guid("30e20066-026d-4f3e-a66a-a3f4f3f6c9f3"), new Guid("18082d0e-56af-4ab2-b211-333089cfee0e"), new Guid("e061d9d3-9497-4908-91ed-5804b029590a"), new TimeSpan(0, 0, 3, 0, 0), 0, "Stoned", null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Albums_ArtistId",
@@ -486,31 +430,6 @@ namespace MusicStore.Repository.Migrations
                 name: "IX_ShoppingCarts_OwnerId",
                 table: "ShoppingCarts",
                 column: "OwnerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Ticket_OrderId",
-                table: "Ticket",
-                column: "OrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Ticket_TrackId",
-                table: "Ticket",
-                column: "TrackId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TicketInShoppingCart_MusicStoreApplicationUserId",
-                table: "TicketInShoppingCart",
-                column: "MusicStoreApplicationUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TicketInShoppingCart_ShoppingCartId",
-                table: "TicketInShoppingCart",
-                column: "ShoppingCartId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TicketInShoppingCart_TicketId",
-                table: "TicketInShoppingCart",
-                column: "TicketId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tracks_AlbumId",
@@ -598,25 +517,19 @@ namespace MusicStore.Repository.Migrations
                 name: "CartItems");
 
             migrationBuilder.DropTable(
-                name: "TicketInShoppingCart");
-
-            migrationBuilder.DropTable(
                 name: "TrackUserPlaylist");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Ticket");
-
-            migrationBuilder.DropTable(
-                name: "UserPlaylists");
-
-            migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Tracks");
+
+            migrationBuilder.DropTable(
+                name: "UserPlaylists");
 
             migrationBuilder.DropTable(
                 name: "Albums");

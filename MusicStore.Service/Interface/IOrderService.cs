@@ -10,7 +10,7 @@ namespace MusicStore.Service.Interface
     public interface IOrderService
     {
         List<Order> GetAllOrders();
-        Order GetOrderDetails(Guid orderId);
+        Order GetOrderDetails(BaseEntity orderId);
         Order CreateOrder(string userId, ICollection<BoughtItem> boughtItems);
         Order DeleteOrder(Guid id);
         void DeleteAllOrders();

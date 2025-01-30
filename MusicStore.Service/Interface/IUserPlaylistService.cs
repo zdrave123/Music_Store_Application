@@ -11,10 +11,10 @@ namespace MusicStore.Service.Interface
     {
         List<UserPlaylist> GetPlaylistsForUser(string userId);
         void CreatePlaylist(string userId, string playlistName);
-        void AddTrackToPlaylist(Guid playlistId, Guid trackId, string userId);
-        void RemoveTrackFromPlaylist(Guid playlistId, Guid trackId);
+        void AddTrackToPlaylist(BaseEntity playlistId, Guid trackId, string userId);
+        void RemoveTrackFromPlaylist(BaseEntity playlistId, Guid trackId);
         void DeletePlaylist(Guid playlistId);
-        UserPlaylist GetPlaylistDetails(Guid playlistId);
+        UserPlaylist GetPlaylistDetails(BaseEntity playlistId);
         void RemoveItemFromBoughtItems(Guid id);
        
     }

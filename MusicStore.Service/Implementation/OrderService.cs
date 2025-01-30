@@ -25,7 +25,7 @@ namespace MusicStore.Service.Implementation
             return orderRepository.GetAllOrders();
         }
 
-        public Order GetOrderDetails(Guid orderId)
+        public Order GetOrderDetails(BaseEntity orderId)
         {
             return orderRepository.GetOrderDetails(orderId);
         }

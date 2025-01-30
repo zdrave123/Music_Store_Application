@@ -27,12 +27,12 @@ namespace MusicStore.Repository.Implementation
                 .ToList();
         }
 
-        public Order GetOrderDetails(Guid id)
+        public Order GetOrderDetails(BaseEntity id)
         {
             return context.Orders
                 .Include(o => o.BoughtItems)
                 .Include(o => o.Owner)
-                .FirstOrDefault(o => o.Id == id);
+                .FirstOrDefault(o => o.Id == id.Id);
         }
 
         public Order CreateOrder(string userId, ICollection<BoughtItem> boughtItems)

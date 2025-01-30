@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MusicStore.Domain.Domain;
 using MusicStore.Service.Interface;
 
 namespace MusicStore.Web.Controllers
@@ -21,7 +22,12 @@ namespace MusicStore.Web.Controllers
 
         public IActionResult Details(Guid id)
         {
-            var order = orderService.GetOrderDetails(id);
+            var model = new BaseEntity
+            {
+                Id = id
+            };
+
+            var order = orderService.GetOrderDetails(model);
 
             if (order == null)
             {

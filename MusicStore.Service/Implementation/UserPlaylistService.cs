@@ -50,9 +50,9 @@ namespace MusicStore.Service.Implementation
             _playlistRepository.Insert(playlist);
         }
 
-        public void AddTrackToPlaylist(Guid playlistId, Guid trackId, string userId)
+        public void AddTrackToPlaylist(BaseEntity playlistId, Guid trackId, string userId)
         {
-            var playlist = _playlistRepository.Get(playlistId);
+            var playlist = _playlistRepository.Get(playlistId.Id);
             //var track = trackRepository1.GetTrackById(trackId);
             var track = _trackRepository.Get(trackId);
            
@@ -72,7 +72,7 @@ namespace MusicStore.Service.Implementation
             
         }
 
-        public void RemoveTrackFromPlaylist(Guid playlistId, Guid trackId)
+        public void RemoveTrackFromPlaylist(BaseEntity playlistId, Guid trackId)
         {
             var playlist = playlistRepositoryNew.GetPlaylistById(playlistId);
 
@@ -104,7 +104,7 @@ namespace MusicStore.Service.Implementation
             }
         }
 
-        public UserPlaylist GetPlaylistDetails(Guid playlistId)
+        public UserPlaylist GetPlaylistDetails(BaseEntity playlistId)
         {
             return playlistRepositoryNew.GetPlaylistById(playlistId);
         }
