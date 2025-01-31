@@ -1,0 +1,66 @@
+﻿@model MusicStoreAdminApp.Models.Order
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<h2>Order Details</h2>
+
+@if (Model != null)
+{
+    <div class="card">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Order ID</dt>
+                <dd class="col-sm-9">@Model.Id</dd>
+
+                <dt class="col-sm-3">Owner ID</dt>
+                <dd class="col-sm-9">@Model.OwnerId</dd>
+
+                <dt class="col-sm-3">Created At</dt>
+                <dd class="col-sm-9">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                <dt class="col-sm-3">Number of Items</dt>
+                <dd class="col-sm-9">@(Model.BoughtItems?.Count ?? 0)</dd>
+            </dl>
+
+            @if (Model.BoughtItems != null && Model.BoughtItems.Any())
+            {
+                <h4>Bought Items</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Track Title</th>
+                            <th>Artist</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.BoughtItems)
+                        {
+                            <tr>
+                                <td>@item.ProductName</td>
+                                <td>@item.ProductType</td>
+                                <td>$@item.Price</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No items in this order</p>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        <p>Order not found or could not be loaded.</p>
+    </div>
+}
+
+<div class="mt-3">
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
