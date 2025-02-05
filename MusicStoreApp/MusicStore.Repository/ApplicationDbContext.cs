@@ -94,7 +94,9 @@ namespace MusicStoreApplication.Repository
 
                 entity.HasMany(o => o.BoughtItems)
                     .WithOne(t => t.Order)
-                    .HasForeignKey(t => t.OrderId);
+                    .HasForeignKey(t => t.OrderId)
+                    .OnDelete(DeleteBehavior.SetNull);
+          
             });
 
             // ShoppingCart Configuration

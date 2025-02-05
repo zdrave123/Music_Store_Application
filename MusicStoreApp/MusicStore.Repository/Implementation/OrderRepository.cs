@@ -52,7 +52,7 @@ namespace MusicStore.Repository.Implementation
 
         public Order DeleteOrder(Guid id)
         {
-            var order = context.Orders.Include(o => o.BoughtItems).FirstOrDefault(o => o.Id == id);
+            var order = context.Orders.FirstOrDefault(o => o.Id == id);
 
             if (order != null)
             {
@@ -65,7 +65,7 @@ namespace MusicStore.Repository.Implementation
 
         public void DeleteAllOrders()
         {
-            context.Orders.RemoveRange(context.Orders.Include(o => o.BoughtItems).ToList());
+            context.Orders.RemoveRange(context.Orders.ToList());
             context.SaveChanges();
         }
     }

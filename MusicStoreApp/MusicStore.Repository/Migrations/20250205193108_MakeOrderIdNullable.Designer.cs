@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicStoreApplication.Repository;
 
@@ -11,9 +12,11 @@ using MusicStoreApplication.Repository;
 namespace MusicStore.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250205193108_MakeOrderIdNullable")]
+    partial class MakeOrderIdNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,90 +193,90 @@ namespace MusicStore.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9aeec161-fdbf-43f2-9df6-ad9eecffa4f8"),
+                            Id = new Guid("f262c65b-cadc-4826-a40d-cab5bc08f5c8"),
                             AlbumImageUrl = "https://i.discogs.com/1fwskTLM6cfxbdNmBDJ8expl6wab0tEgxvuloLIqKh8/rs:fit/g:sm/q:90/h:596/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkyODc4/MDktMTQ3OTc1MzIz/Ni05NjE3LmpwZWc.jpeg",
-                            ArtistId = new Guid("911a1646-4ba7-4d31-b632-2ef2c062fa15"),
+                            ArtistId = new Guid("34ce29a6-f83a-46e0-b62b-19cc7f513dab"),
                             Price = 20,
                             ReleaseDate = new DateTime(1973, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Dark Side of the Moon"
                         },
                         new
                         {
-                            Id = new Guid("9939d5cc-8b92-43ce-81b6-51d4bca6bb70"),
+                            Id = new Guid("601ec9ef-1931-43a4-ae83-04b773ebca1c"),
                             AlbumImageUrl = "https://i.discogs.com/pZnTKUeiKsxSyvX_87YMgccx0bq5sjqThFH9iSNAtAY/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE2MjEx/ODEyLTE2MzczMzYw/OTctOTI4MC5qcGVn.jpeg",
-                            ArtistId = new Guid("911a1646-4ba7-4d31-b632-2ef2c062fa15"),
+                            ArtistId = new Guid("34ce29a6-f83a-46e0-b62b-19cc7f513dab"),
                             Price = 22,
                             ReleaseDate = new DateTime(1975, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Wish You Were Here"
                         },
                         new
                         {
-                            Id = new Guid("955e64d1-f8af-49d2-813d-5a4be265bb01"),
+                            Id = new Guid("9a1c6833-4a8c-4158-b204-201ddbcb04c0"),
                             AlbumImageUrl = "https://i.discogs.com/goWfjpqUBW8Y0xrqJG_GFz3fCTHPSWeKLZAX1alAAzk/rs:fit/g:sm/q:90/h:600/w:592/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MTg2/NDQxLTE1Njk0ODcx/NjEtNzMxNC5qcGVn.jpeg",
-                            ArtistId = new Guid("a64fb778-dcbd-43b8-93b5-588a76f923d8"),
+                            ArtistId = new Guid("13ca4c9c-dbb8-426d-8a95-2b02095e66bb"),
                             Price = 25,
                             ReleaseDate = new DateTime(1969, 9, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Abbey Road"
                         },
                         new
                         {
-                            Id = new Guid("e6289ca4-9a0b-460b-b1d3-4224e9656f77"),
+                            Id = new Guid("5430f5cf-b38c-4ecc-9d22-60aee1796f28"),
                             AlbumImageUrl = "https://i.discogs.com/HWA3uoT2xu7zj_kM-f18f02CCQNKk2W8YzUL-D_l2ZM/rs:fit/g:sm/q:90/h:581/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwODgx/MjYtMTI1Njk1MDk3/OS5qcGVn.jpeg",
-                            ArtistId = new Guid("a64fb778-dcbd-43b8-93b5-588a76f923d8"),
+                            ArtistId = new Guid("13ca4c9c-dbb8-426d-8a95-2b02095e66bb"),
                             Price = 23,
                             ReleaseDate = new DateTime(1970, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Let It Be"
                         },
                         new
                         {
-                            Id = new Guid("50bd036b-34d3-4b24-932f-a6805629b5a9"),
+                            Id = new Guid("69035498-9180-4ac2-a29f-8bf1cef30fec"),
                             AlbumImageUrl = "https://i.discogs.com/yFq3X0xZMxIVHIFgmbrsPvJHXLJCfVLWs60AL4XS4bs/rs:fit/g:sm/q:90/h:598/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwMTU0/NjUtMTM2NjMxMTg2/Ny0yNzg1LmpwZWc.jpeg",
-                            ArtistId = new Guid("f8c0495d-adaa-45f1-9db4-ca7b1983fcda"),
+                            ArtistId = new Guid("dcdced73-b151-42c8-a4e2-c8bc0f373d4c"),
                             Price = 24,
                             ReleaseDate = new DateTime(1971, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Led Zeppelin IV"
                         },
                         new
                         {
-                            Id = new Guid("c8684cd1-a8ae-47d5-a017-4d0f0941f23c"),
+                            Id = new Guid("419550b0-477c-4c2d-8b5d-35b558e991ec"),
                             AlbumImageUrl = "https://i.discogs.com/BLWVi0t0llSqJvIybHrSvPql-RfORCmZU1klNfV0si8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ1NTA3/Ny0xNTg4ODgwNzg4/LTIyMjYuanBlZw.jpeg",
-                            ArtistId = new Guid("f8c0495d-adaa-45f1-9db4-ca7b1983fcda"),
+                            ArtistId = new Guid("dcdced73-b151-42c8-a4e2-c8bc0f373d4c"),
                             Price = 26,
                             ReleaseDate = new DateTime(1973, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Houses of the Holy"
                         },
                         new
                         {
-                            Id = new Guid("74c096d7-a565-4fbc-b65d-cf962adca542"),
+                            Id = new Guid("46deccd7-bed4-4133-ac66-aee3114e2cca"),
                             AlbumImageUrl = "https://i.discogs.com/2GXnNYolz0ciUnj8-ycSwQ8Uuy0Qu7LCfiZivZ0p_bo/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYxMjc4/MC0xNTQxMzY3MTQ1/LTIxMjcuanBlZw.jpeg",
-                            ArtistId = new Guid("0a5a6408-a484-45f9-9609-e73059158289"),
+                            ArtistId = new Guid("f5041b8f-36f0-4b4c-8c62-9f1ec57994e6"),
                             Price = 21,
                             ReleaseDate = new DateTime(1975, 11, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Night at the Opera"
                         },
                         new
                         {
-                            Id = new Guid("fd93596a-99fc-4636-b0d8-8e9630ade643"),
+                            Id = new Guid("eb4c19e6-d79f-4772-bfd7-944432c032d9"),
                             AlbumImageUrl = "https://i.discogs.com/p2o5GGONaTq4jK398iU0X3KjuMfnK10_TEC_bdnKA6k/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMzMjg5/ODItMTM1NzgxOTE3/NS05NTU3LmpwZWc.jpeg",
-                            ArtistId = new Guid("0a5a6408-a484-45f9-9609-e73059158289"),
+                            ArtistId = new Guid("f5041b8f-36f0-4b4c-8c62-9f1ec57994e6"),
                             Price = 19,
                             ReleaseDate = new DateTime(1984, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Works"
                         },
                         new
                         {
-                            Id = new Guid("a44a2b55-8237-4c54-ba0f-1656536630f8"),
+                            Id = new Guid("7140cf95-b56c-4041-a9ed-aba960bdc255"),
                             AlbumImageUrl = "https://i.discogs.com/XoAXkLe03Vk0Kt-oQqw7V9uW5nBzQdNvZd0zar5mOiQ/rs:fit/g:sm/q:90/h:592/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2NzA4/NC0xMjYzMDk1NTUz/LmpwZWc.jpeg",
-                            ArtistId = new Guid("3ce30c3d-c447-4a1e-ae4d-6a084c558caf"),
+                            ArtistId = new Guid("4832b825-5713-41ec-95ce-ab04ef1249d5"),
                             Price = 18,
                             ReleaseDate = new DateTime(1991, 9, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Nevermind"
                         },
                         new
                         {
-                            Id = new Guid("4d9dc852-f291-4f9f-8a1f-0643e2416c3f"),
+                            Id = new Guid("73970e5d-b375-4537-9001-196c51cf9110"),
                             AlbumImageUrl = "https://i.discogs.com/ijIUNhH--0OKzKuKv-aLpgFkb7lr6OQVb5FcAF_aW0U/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3NTk3/OS0xNDkxNzAwMzQ3/LTcyNjMuanBlZw.jpeg",
-                            ArtistId = new Guid("3ce30c3d-c447-4a1e-ae4d-6a084c558caf"),
+                            ArtistId = new Guid("4832b825-5713-41ec-95ce-ab04ef1249d5"),
                             Price = 20,
                             ReleaseDate = new DateTime(1993, 9, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "In Utero"
@@ -301,31 +304,31 @@ namespace MusicStore.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("911a1646-4ba7-4d31-b632-2ef2c062fa15"),
+                            Id = new Guid("34ce29a6-f83a-46e0-b62b-19cc7f513dab"),
                             Bio = "A legendary rock band.",
                             Name = "Pink Floyd"
                         },
                         new
                         {
-                            Id = new Guid("a64fb778-dcbd-43b8-93b5-588a76f923d8"),
+                            Id = new Guid("13ca4c9c-dbb8-426d-8a95-2b02095e66bb"),
                             Bio = "One of the most influential rock bands.",
                             Name = "The Beatles"
                         },
                         new
                         {
-                            Id = new Guid("f8c0495d-adaa-45f1-9db4-ca7b1983fcda"),
+                            Id = new Guid("dcdced73-b151-42c8-a4e2-c8bc0f373d4c"),
                             Bio = "A rock band known for its heavy sound.",
                             Name = "Led Zeppelin"
                         },
                         new
                         {
-                            Id = new Guid("0a5a6408-a484-45f9-9609-e73059158289"),
+                            Id = new Guid("f5041b8f-36f0-4b4c-8c62-9f1ec57994e6"),
                             Bio = "A rock band known for its eclectic musical style.",
                             Name = "Queen"
                         },
                         new
                         {
-                            Id = new Guid("3ce30c3d-c447-4a1e-ae4d-6a084c558caf"),
+                            Id = new Guid("4832b825-5713-41ec-95ce-ab04ef1249d5"),
                             Bio = "A grunge band that shaped the 90s music scene.",
                             Name = "Nirvana"
                         });
@@ -468,9 +471,9 @@ namespace MusicStore.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8909e7f1-668c-4242-af61-5cd342a5bc47"),
-                            AlbumId = new Guid("9aeec161-fdbf-43f2-9df6-ad9eecffa4f8"),
-                            ArtistId = new Guid("911a1646-4ba7-4d31-b632-2ef2c062fa15"),
+                            Id = new Guid("9d487692-b57d-4e34-9959-c2cb48cd6f42"),
+                            AlbumId = new Guid("f262c65b-cadc-4826-a40d-cab5bc08f5c8"),
+                            ArtistId = new Guid("34ce29a6-f83a-46e0-b62b-19cc7f513dab"),
                             Duration = new TimeSpan(0, 0, 1, 0, 0),
                             Price = 129,
                             Title = "Speak to Me",
@@ -478,9 +481,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c541d07e-d70d-444a-9355-657392d9b2c5"),
-                            AlbumId = new Guid("9aeec161-fdbf-43f2-9df6-ad9eecffa4f8"),
-                            ArtistId = new Guid("911a1646-4ba7-4d31-b632-2ef2c062fa15"),
+                            Id = new Guid("fe7d4e13-78fe-45eb-9eb3-9e944bc15946"),
+                            AlbumId = new Guid("f262c65b-cadc-4826-a40d-cab5bc08f5c8"),
+                            ArtistId = new Guid("34ce29a6-f83a-46e0-b62b-19cc7f513dab"),
                             Duration = new TimeSpan(0, 0, 2, 0, 0),
                             Price = 129,
                             Title = "Breathe in the air",
@@ -488,9 +491,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("08576d3b-62a8-404a-b780-5fecd878e780"),
-                            AlbumId = new Guid("9aeec161-fdbf-43f2-9df6-ad9eecffa4f8"),
-                            ArtistId = new Guid("911a1646-4ba7-4d31-b632-2ef2c062fa15"),
+                            Id = new Guid("39980673-bf11-43ef-ae6a-3eb45740406b"),
+                            AlbumId = new Guid("f262c65b-cadc-4826-a40d-cab5bc08f5c8"),
+                            ArtistId = new Guid("34ce29a6-f83a-46e0-b62b-19cc7f513dab"),
                             Duration = new TimeSpan(0, 0, 3, 0, 0),
                             Price = 129,
                             Title = "On the Run",
@@ -498,9 +501,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e82cf279-452b-40f4-a98e-7681e011ae51"),
-                            AlbumId = new Guid("9aeec161-fdbf-43f2-9df6-ad9eecffa4f8"),
-                            ArtistId = new Guid("911a1646-4ba7-4d31-b632-2ef2c062fa15"),
+                            Id = new Guid("4aeea237-23e2-4b54-9952-c51d8f9cdd79"),
+                            AlbumId = new Guid("f262c65b-cadc-4826-a40d-cab5bc08f5c8"),
+                            ArtistId = new Guid("34ce29a6-f83a-46e0-b62b-19cc7f513dab"),
                             Duration = new TimeSpan(0, 0, 6, 0, 0),
                             Price = 129,
                             Title = "Time",
@@ -508,9 +511,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1ab4df3c-4213-48a8-958f-17cf56d5c63c"),
-                            AlbumId = new Guid("9939d5cc-8b92-43ce-81b6-51d4bca6bb70"),
-                            ArtistId = new Guid("911a1646-4ba7-4d31-b632-2ef2c062fa15"),
+                            Id = new Guid("4cf4087b-669d-4802-bec1-510a68a9587a"),
+                            AlbumId = new Guid("601ec9ef-1931-43a4-ae83-04b773ebca1c"),
+                            ArtistId = new Guid("34ce29a6-f83a-46e0-b62b-19cc7f513dab"),
                             Duration = new TimeSpan(0, 0, 13, 0, 0),
                             Price = 129,
                             Title = "Shine On You Crazy Diamond (Part I-V)",
@@ -518,9 +521,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8fe04cee-4815-42b2-8ce8-20ca9f457954"),
-                            AlbumId = new Guid("9939d5cc-8b92-43ce-81b6-51d4bca6bb70"),
-                            ArtistId = new Guid("911a1646-4ba7-4d31-b632-2ef2c062fa15"),
+                            Id = new Guid("5a378393-e339-47ea-b78d-86d23066d771"),
+                            AlbumId = new Guid("601ec9ef-1931-43a4-ae83-04b773ebca1c"),
+                            ArtistId = new Guid("34ce29a6-f83a-46e0-b62b-19cc7f513dab"),
                             Duration = new TimeSpan(0, 0, 7, 0, 0),
                             Price = 129,
                             Title = "Welcome to the Machine",
@@ -528,9 +531,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9d022888-befd-4274-b729-7255cecd4765"),
-                            AlbumId = new Guid("9939d5cc-8b92-43ce-81b6-51d4bca6bb70"),
-                            ArtistId = new Guid("911a1646-4ba7-4d31-b632-2ef2c062fa15"),
+                            Id = new Guid("1db605f1-df28-4ee8-9feb-5012ed6d7594"),
+                            AlbumId = new Guid("601ec9ef-1931-43a4-ae83-04b773ebca1c"),
+                            ArtistId = new Guid("34ce29a6-f83a-46e0-b62b-19cc7f513dab"),
                             Duration = new TimeSpan(0, 0, 5, 0, 0),
                             Price = 129,
                             Title = "Have a Cigar",
@@ -538,9 +541,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("38a29651-7652-484f-bb93-dfd0f0a4df85"),
-                            AlbumId = new Guid("9939d5cc-8b92-43ce-81b6-51d4bca6bb70"),
-                            ArtistId = new Guid("911a1646-4ba7-4d31-b632-2ef2c062fa15"),
+                            Id = new Guid("6fd19035-f328-4aab-b295-e47703945f7d"),
+                            AlbumId = new Guid("601ec9ef-1931-43a4-ae83-04b773ebca1c"),
+                            ArtistId = new Guid("34ce29a6-f83a-46e0-b62b-19cc7f513dab"),
                             Duration = new TimeSpan(0, 0, 5, 0, 0),
                             Price = 129,
                             Title = "Wish You Were Here",
@@ -548,9 +551,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("da7453d3-7430-44e1-a1f3-0b477d7a8cf0"),
-                            AlbumId = new Guid("955e64d1-f8af-49d2-813d-5a4be265bb01"),
-                            ArtistId = new Guid("a64fb778-dcbd-43b8-93b5-588a76f923d8"),
+                            Id = new Guid("c9a0e002-64bb-41d2-a164-17027fbcf782"),
+                            AlbumId = new Guid("9a1c6833-4a8c-4158-b204-201ddbcb04c0"),
+                            ArtistId = new Guid("13ca4c9c-dbb8-426d-8a95-2b02095e66bb"),
                             Duration = new TimeSpan(0, 0, 4, 0, 0),
                             Price = 129,
                             Title = "Come Together",
@@ -558,9 +561,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9b4faac5-2c4a-45c2-a5ff-73cb3f223367"),
-                            AlbumId = new Guid("955e64d1-f8af-49d2-813d-5a4be265bb01"),
-                            ArtistId = new Guid("a64fb778-dcbd-43b8-93b5-588a76f923d8"),
+                            Id = new Guid("3e81dbd1-0649-4060-b3a6-233f555c2ed6"),
+                            AlbumId = new Guid("9a1c6833-4a8c-4158-b204-201ddbcb04c0"),
+                            ArtistId = new Guid("13ca4c9c-dbb8-426d-8a95-2b02095e66bb"),
                             Duration = new TimeSpan(0, 0, 3, 0, 0),
                             Price = 129,
                             Title = "Something",
@@ -568,9 +571,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1149c0c2-aae5-4a8a-9a62-fa4d4be5f22a"),
-                            AlbumId = new Guid("955e64d1-f8af-49d2-813d-5a4be265bb01"),
-                            ArtistId = new Guid("a64fb778-dcbd-43b8-93b5-588a76f923d8"),
+                            Id = new Guid("5f82b39b-fb8c-49ab-9a05-664ca3e1b035"),
+                            AlbumId = new Guid("9a1c6833-4a8c-4158-b204-201ddbcb04c0"),
+                            ArtistId = new Guid("13ca4c9c-dbb8-426d-8a95-2b02095e66bb"),
                             Duration = new TimeSpan(0, 0, 3, 0, 0),
                             Price = 129,
                             Title = "Octopus's Garden",
@@ -578,9 +581,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("4917a5f8-2a6d-4e6b-a73d-19a957941b59"),
-                            AlbumId = new Guid("955e64d1-f8af-49d2-813d-5a4be265bb01"),
-                            ArtistId = new Guid("a64fb778-dcbd-43b8-93b5-588a76f923d8"),
+                            Id = new Guid("bda332b9-bb19-4944-a396-ebb03ff74f90"),
+                            AlbumId = new Guid("9a1c6833-4a8c-4158-b204-201ddbcb04c0"),
+                            ArtistId = new Guid("13ca4c9c-dbb8-426d-8a95-2b02095e66bb"),
                             Duration = new TimeSpan(0, 0, 3, 0, 0),
                             Price = 129,
                             Title = "Here Comes the Sun",
@@ -588,9 +591,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8190643a-08db-4f6c-b914-23baf9d437a5"),
-                            AlbumId = new Guid("e6289ca4-9a0b-460b-b1d3-4224e9656f77"),
-                            ArtistId = new Guid("a64fb778-dcbd-43b8-93b5-588a76f923d8"),
+                            Id = new Guid("fd7b9bfb-f9e2-4b23-9099-7395364ed836"),
+                            AlbumId = new Guid("5430f5cf-b38c-4ecc-9d22-60aee1796f28"),
+                            ArtistId = new Guid("13ca4c9c-dbb8-426d-8a95-2b02095e66bb"),
                             Duration = new TimeSpan(0, 0, 4, 0, 0),
                             Price = 129,
                             Title = "Let It Be",
@@ -598,9 +601,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("55bab500-2844-4d45-9d96-023932ebe9a2"),
-                            AlbumId = new Guid("e6289ca4-9a0b-460b-b1d3-4224e9656f77"),
-                            ArtistId = new Guid("a64fb778-dcbd-43b8-93b5-588a76f923d8"),
+                            Id = new Guid("885dbaff-69d5-4e90-acaf-58da74c09bbd"),
+                            AlbumId = new Guid("5430f5cf-b38c-4ecc-9d22-60aee1796f28"),
+                            ArtistId = new Guid("13ca4c9c-dbb8-426d-8a95-2b02095e66bb"),
                             Duration = new TimeSpan(0, 0, 3, 0, 0),
                             Price = 129,
                             Title = "Across the Universe",
@@ -608,9 +611,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("aba2672b-5506-4972-8935-54a21d74d2d7"),
-                            AlbumId = new Guid("e6289ca4-9a0b-460b-b1d3-4224e9656f77"),
-                            ArtistId = new Guid("a64fb778-dcbd-43b8-93b5-588a76f923d8"),
+                            Id = new Guid("e87be7a7-98f5-4a31-ab30-9b46258963cd"),
+                            AlbumId = new Guid("5430f5cf-b38c-4ecc-9d22-60aee1796f28"),
+                            ArtistId = new Guid("13ca4c9c-dbb8-426d-8a95-2b02095e66bb"),
                             Duration = new TimeSpan(0, 0, 3, 0, 0),
                             Price = 129,
                             Title = "The Long and Winding Road",
@@ -618,9 +621,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ae744f21-ff83-4643-8fb4-8b676fa6016f"),
-                            AlbumId = new Guid("e6289ca4-9a0b-460b-b1d3-4224e9656f77"),
-                            ArtistId = new Guid("a64fb778-dcbd-43b8-93b5-588a76f923d8"),
+                            Id = new Guid("bb2720e5-6496-4faf-a34e-240df86d3266"),
+                            AlbumId = new Guid("5430f5cf-b38c-4ecc-9d22-60aee1796f28"),
+                            ArtistId = new Guid("13ca4c9c-dbb8-426d-8a95-2b02095e66bb"),
                             Duration = new TimeSpan(0, 0, 3, 0, 0),
                             Price = 129,
                             Title = "Get Back",
@@ -628,9 +631,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("88194897-22bf-4dcc-aa92-1d9b6b962e98"),
-                            AlbumId = new Guid("50bd036b-34d3-4b24-932f-a6805629b5a9"),
-                            ArtistId = new Guid("f8c0495d-adaa-45f1-9db4-ca7b1983fcda"),
+                            Id = new Guid("d15a16c2-9bbd-47f0-8f77-36757c0d7b5f"),
+                            AlbumId = new Guid("69035498-9180-4ac2-a29f-8bf1cef30fec"),
+                            ArtistId = new Guid("dcdced73-b151-42c8-a4e2-c8bc0f373d4c"),
                             Duration = new TimeSpan(0, 0, 4, 0, 0),
                             Price = 129,
                             Title = "Black Dog",
@@ -638,9 +641,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("24378446-af44-4923-9d10-5807af48884f"),
-                            AlbumId = new Guid("50bd036b-34d3-4b24-932f-a6805629b5a9"),
-                            ArtistId = new Guid("f8c0495d-adaa-45f1-9db4-ca7b1983fcda"),
+                            Id = new Guid("1c1f2607-0863-49df-9104-cf8be305f4c7"),
+                            AlbumId = new Guid("69035498-9180-4ac2-a29f-8bf1cef30fec"),
+                            ArtistId = new Guid("dcdced73-b151-42c8-a4e2-c8bc0f373d4c"),
                             Duration = new TimeSpan(0, 0, 3, 0, 0),
                             Price = 129,
                             Title = "Rock and Roll",
@@ -648,9 +651,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("46820f41-dd97-4b8a-a832-6504e220d3cc"),
-                            AlbumId = new Guid("50bd036b-34d3-4b24-932f-a6805629b5a9"),
-                            ArtistId = new Guid("f8c0495d-adaa-45f1-9db4-ca7b1983fcda"),
+                            Id = new Guid("0870c38b-6599-47f1-a350-9be2ceacd551"),
+                            AlbumId = new Guid("69035498-9180-4ac2-a29f-8bf1cef30fec"),
+                            ArtistId = new Guid("dcdced73-b151-42c8-a4e2-c8bc0f373d4c"),
                             Duration = new TimeSpan(0, 0, 8, 0, 0),
                             Price = 129,
                             Title = "Stairway to Heaven",
@@ -658,9 +661,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("40739108-855f-4588-b333-33b49ce96430"),
-                            AlbumId = new Guid("50bd036b-34d3-4b24-932f-a6805629b5a9"),
-                            ArtistId = new Guid("f8c0495d-adaa-45f1-9db4-ca7b1983fcda"),
+                            Id = new Guid("8c1aad36-eee6-4edd-bf45-e9eb9cc7e908"),
+                            AlbumId = new Guid("69035498-9180-4ac2-a29f-8bf1cef30fec"),
+                            ArtistId = new Guid("dcdced73-b151-42c8-a4e2-c8bc0f373d4c"),
                             Duration = new TimeSpan(0, 0, 3, 0, 0),
                             Price = 129,
                             Title = "Going to California",
@@ -668,9 +671,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d8160563-899f-402c-8edf-bbd2771a693b"),
-                            AlbumId = new Guid("c8684cd1-a8ae-47d5-a017-4d0f0941f23c"),
-                            ArtistId = new Guid("f8c0495d-adaa-45f1-9db4-ca7b1983fcda"),
+                            Id = new Guid("1b831e70-6671-4b38-bf34-88f79c5c6ab2"),
+                            AlbumId = new Guid("419550b0-477c-4c2d-8b5d-35b558e991ec"),
+                            ArtistId = new Guid("dcdced73-b151-42c8-a4e2-c8bc0f373d4c"),
                             Duration = new TimeSpan(0, 0, 5, 0, 0),
                             Price = 129,
                             Title = "The Song Remains the Same",
@@ -678,9 +681,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e41a8157-8ccf-444b-9657-57556e608e41"),
-                            AlbumId = new Guid("c8684cd1-a8ae-47d5-a017-4d0f0941f23c"),
-                            ArtistId = new Guid("f8c0495d-adaa-45f1-9db4-ca7b1983fcda"),
+                            Id = new Guid("dfa1d05f-a156-4a51-83ad-a28957080cac"),
+                            AlbumId = new Guid("419550b0-477c-4c2d-8b5d-35b558e991ec"),
+                            ArtistId = new Guid("dcdced73-b151-42c8-a4e2-c8bc0f373d4c"),
                             Duration = new TimeSpan(0, 0, 7, 0, 0),
                             Price = 129,
                             Title = "The Rain Song",
@@ -688,9 +691,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("dba66f88-92f3-415d-b2d3-a74534c8d351"),
-                            AlbumId = new Guid("c8684cd1-a8ae-47d5-a017-4d0f0941f23c"),
-                            ArtistId = new Guid("f8c0495d-adaa-45f1-9db4-ca7b1983fcda"),
+                            Id = new Guid("b3e6bf3a-9db4-4c13-9724-4d78fe05d5b5"),
+                            AlbumId = new Guid("419550b0-477c-4c2d-8b5d-35b558e991ec"),
+                            ArtistId = new Guid("dcdced73-b151-42c8-a4e2-c8bc0f373d4c"),
                             Duration = new TimeSpan(0, 0, 4, 0, 0),
                             Price = 129,
                             Title = "Over the Hills and Far Away",
@@ -698,9 +701,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5b87080f-4e8d-4e0d-8296-ca72abe80fca"),
-                            AlbumId = new Guid("c8684cd1-a8ae-47d5-a017-4d0f0941f23c"),
-                            ArtistId = new Guid("f8c0495d-adaa-45f1-9db4-ca7b1983fcda"),
+                            Id = new Guid("e2c5a6c2-0941-4951-a4f2-20d6e57bea9c"),
+                            AlbumId = new Guid("419550b0-477c-4c2d-8b5d-35b558e991ec"),
+                            ArtistId = new Guid("dcdced73-b151-42c8-a4e2-c8bc0f373d4c"),
                             Duration = new TimeSpan(0, 0, 7, 0, 0),
                             Price = 129,
                             Title = "No Quarter",
@@ -708,9 +711,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a422a5ff-f9b4-43b5-9a49-72d341a477ba"),
-                            AlbumId = new Guid("74c096d7-a565-4fbc-b65d-cf962adca542"),
-                            ArtistId = new Guid("0a5a6408-a484-45f9-9609-e73059158289"),
+                            Id = new Guid("3758dd52-d8ce-48bb-b400-27c722d34166"),
+                            AlbumId = new Guid("46deccd7-bed4-4133-ac66-aee3114e2cca"),
+                            ArtistId = new Guid("f5041b8f-36f0-4b4c-8c62-9f1ec57994e6"),
                             Duration = new TimeSpan(0, 0, 3, 0, 0),
                             Price = 129,
                             Title = "Death on Two Legs",
@@ -718,9 +721,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e05be34b-bb40-44e9-a405-a28f4bf90552"),
-                            AlbumId = new Guid("74c096d7-a565-4fbc-b65d-cf962adca542"),
-                            ArtistId = new Guid("0a5a6408-a484-45f9-9609-e73059158289"),
+                            Id = new Guid("f7e3aa0a-80d8-40cf-81b4-0bd11720b69e"),
+                            AlbumId = new Guid("46deccd7-bed4-4133-ac66-aee3114e2cca"),
+                            ArtistId = new Guid("f5041b8f-36f0-4b4c-8c62-9f1ec57994e6"),
                             Duration = new TimeSpan(0, 0, 3, 0, 0),
                             Price = 129,
                             Title = "You're My Best Friend",
@@ -728,9 +731,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3663936c-91fe-4954-bbd4-c4693704553b"),
-                            AlbumId = new Guid("74c096d7-a565-4fbc-b65d-cf962adca542"),
-                            ArtistId = new Guid("0a5a6408-a484-45f9-9609-e73059158289"),
+                            Id = new Guid("027e5f71-5d62-45c6-9602-90327d3f3b75"),
+                            AlbumId = new Guid("46deccd7-bed4-4133-ac66-aee3114e2cca"),
+                            ArtistId = new Guid("f5041b8f-36f0-4b4c-8c62-9f1ec57994e6"),
                             Duration = new TimeSpan(0, 0, 3, 0, 0),
                             Price = 129,
                             Title = "Love of My Life",
@@ -738,9 +741,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2d45cf8f-2fa6-421c-9be5-accff0a42511"),
-                            AlbumId = new Guid("74c096d7-a565-4fbc-b65d-cf962adca542"),
-                            ArtistId = new Guid("0a5a6408-a484-45f9-9609-e73059158289"),
+                            Id = new Guid("d8aa562a-5b10-491e-a398-a944e5366795"),
+                            AlbumId = new Guid("46deccd7-bed4-4133-ac66-aee3114e2cca"),
+                            ArtistId = new Guid("f5041b8f-36f0-4b4c-8c62-9f1ec57994e6"),
                             Duration = new TimeSpan(0, 0, 6, 0, 0),
                             Price = 129,
                             Title = "Bohemian Rhapsody",
@@ -748,9 +751,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("80ae42c3-ce6b-4890-a9b1-786dc170ee30"),
-                            AlbumId = new Guid("fd93596a-99fc-4636-b0d8-8e9630ade643"),
-                            ArtistId = new Guid("0a5a6408-a484-45f9-9609-e73059158289"),
+                            Id = new Guid("4c10e3e3-1f22-490d-8200-f285600b3e51"),
+                            AlbumId = new Guid("eb4c19e6-d79f-4772-bfd7-944432c032d9"),
+                            ArtistId = new Guid("f5041b8f-36f0-4b4c-8c62-9f1ec57994e6"),
                             Duration = new TimeSpan(0, 0, 5, 0, 0),
                             Price = 129,
                             Title = "Radio Ga Ga",
@@ -758,9 +761,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("54bd2221-651b-487d-9f5d-6108f34737c8"),
-                            AlbumId = new Guid("fd93596a-99fc-4636-b0d8-8e9630ade643"),
-                            ArtistId = new Guid("0a5a6408-a484-45f9-9609-e73059158289"),
+                            Id = new Guid("ca066c35-5fde-42e5-ab30-07c7546f841e"),
+                            AlbumId = new Guid("eb4c19e6-d79f-4772-bfd7-944432c032d9"),
+                            ArtistId = new Guid("f5041b8f-36f0-4b4c-8c62-9f1ec57994e6"),
                             Duration = new TimeSpan(0, 0, 3, 0, 0),
                             Price = 129,
                             Title = "Tear It Up",
@@ -768,9 +771,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("4cc828da-852b-4d28-a831-1b33670afb96"),
-                            AlbumId = new Guid("fd93596a-99fc-4636-b0d8-8e9630ade643"),
-                            ArtistId = new Guid("0a5a6408-a484-45f9-9609-e73059158289"),
+                            Id = new Guid("94b126bf-0d8a-4843-ad5f-3bbd2463798d"),
+                            AlbumId = new Guid("eb4c19e6-d79f-4772-bfd7-944432c032d9"),
+                            ArtistId = new Guid("f5041b8f-36f0-4b4c-8c62-9f1ec57994e6"),
                             Duration = new TimeSpan(0, 0, 4, 0, 0),
                             Price = 129,
                             Title = "It's a Hard Life",
@@ -778,9 +781,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8b6fc296-a99d-4ac7-af3d-549653e2d4cc"),
-                            AlbumId = new Guid("fd93596a-99fc-4636-b0d8-8e9630ade643"),
-                            ArtistId = new Guid("0a5a6408-a484-45f9-9609-e73059158289"),
+                            Id = new Guid("502be032-830d-4d89-a602-2ec64d82e2cb"),
+                            AlbumId = new Guid("eb4c19e6-d79f-4772-bfd7-944432c032d9"),
+                            ArtistId = new Guid("f5041b8f-36f0-4b4c-8c62-9f1ec57994e6"),
                             Duration = new TimeSpan(0, 0, 4, 0, 0),
                             Price = 129,
                             Title = "I Want to Break Free",
@@ -788,9 +791,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("493439ff-57ab-4de5-9e45-8ee0019ec87a"),
-                            AlbumId = new Guid("a44a2b55-8237-4c54-ba0f-1656536630f8"),
-                            ArtistId = new Guid("3ce30c3d-c447-4a1e-ae4d-6a084c558caf"),
+                            Id = new Guid("b9cd9e4e-8070-407c-9e99-4b4b061d4ae7"),
+                            AlbumId = new Guid("7140cf95-b56c-4041-a9ed-aba960bdc255"),
+                            ArtistId = new Guid("4832b825-5713-41ec-95ce-ab04ef1249d5"),
                             Duration = new TimeSpan(0, 0, 5, 0, 0),
                             Price = 129,
                             Title = "Smells Like Teen Spirit",
@@ -798,9 +801,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("fe698329-5ff4-4c6c-9620-f04a345bc7b3"),
-                            AlbumId = new Guid("a44a2b55-8237-4c54-ba0f-1656536630f8"),
-                            ArtistId = new Guid("3ce30c3d-c447-4a1e-ae4d-6a084c558caf"),
+                            Id = new Guid("f5723d07-eeed-4054-9656-5f8b4f7427d5"),
+                            AlbumId = new Guid("7140cf95-b56c-4041-a9ed-aba960bdc255"),
+                            ArtistId = new Guid("4832b825-5713-41ec-95ce-ab04ef1249d5"),
                             Duration = new TimeSpan(0, 0, 4, 0, 0),
                             Price = 129,
                             Title = "In Bloom",
@@ -808,9 +811,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2dfe7f02-8bd9-4b0a-8a95-186a07f32673"),
-                            AlbumId = new Guid("a44a2b55-8237-4c54-ba0f-1656536630f8"),
-                            ArtistId = new Guid("3ce30c3d-c447-4a1e-ae4d-6a084c558caf"),
+                            Id = new Guid("d4baf977-ea64-420f-9949-bcdb2b3fc372"),
+                            AlbumId = new Guid("7140cf95-b56c-4041-a9ed-aba960bdc255"),
+                            ArtistId = new Guid("4832b825-5713-41ec-95ce-ab04ef1249d5"),
                             Duration = new TimeSpan(0, 0, 4, 0, 0),
                             Price = 129,
                             Title = "Come as You Are",
@@ -818,9 +821,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3c6d4a89-1558-40af-bfe2-e971524a142f"),
-                            AlbumId = new Guid("a44a2b55-8237-4c54-ba0f-1656536630f8"),
-                            ArtistId = new Guid("3ce30c3d-c447-4a1e-ae4d-6a084c558caf"),
+                            Id = new Guid("740e0c08-081d-4890-9292-09493b1b4973"),
+                            AlbumId = new Guid("7140cf95-b56c-4041-a9ed-aba960bdc255"),
+                            ArtistId = new Guid("4832b825-5713-41ec-95ce-ab04ef1249d5"),
                             Duration = new TimeSpan(0, 0, 5, 0, 0),
                             Price = 129,
                             Title = "Lithium",
@@ -828,9 +831,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f75476c4-b411-4084-acd1-556a5e43a0a7"),
-                            AlbumId = new Guid("4d9dc852-f291-4f9f-8a1f-0643e2416c3f"),
-                            ArtistId = new Guid("3ce30c3d-c447-4a1e-ae4d-6a084c558caf"),
+                            Id = new Guid("3b4a0933-758c-498a-a853-34fdd519db0f"),
+                            AlbumId = new Guid("73970e5d-b375-4537-9001-196c51cf9110"),
+                            ArtistId = new Guid("4832b825-5713-41ec-95ce-ab04ef1249d5"),
                             Duration = new TimeSpan(0, 0, 4, 0, 0),
                             Price = 129,
                             Title = "Serve the Servants",
@@ -838,9 +841,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("082edfaa-2af4-4c68-9a7b-19347616c617"),
-                            AlbumId = new Guid("4d9dc852-f291-4f9f-8a1f-0643e2416c3f"),
-                            ArtistId = new Guid("3ce30c3d-c447-4a1e-ae4d-6a084c558caf"),
+                            Id = new Guid("5327139a-9a34-4da3-ad42-9f5e2a8c543a"),
+                            AlbumId = new Guid("73970e5d-b375-4537-9001-196c51cf9110"),
+                            ArtistId = new Guid("4832b825-5713-41ec-95ce-ab04ef1249d5"),
                             Duration = new TimeSpan(0, 0, 5, 0, 0),
                             Price = 129,
                             Title = "Heart-Shaped Box",
@@ -848,9 +851,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ad9ec9ed-a8e5-4eaa-a890-fa835b19bf07"),
-                            AlbumId = new Guid("4d9dc852-f291-4f9f-8a1f-0643e2416c3f"),
-                            ArtistId = new Guid("3ce30c3d-c447-4a1e-ae4d-6a084c558caf"),
+                            Id = new Guid("a7e99edd-0598-445a-a022-d2d0295e9ce2"),
+                            AlbumId = new Guid("73970e5d-b375-4537-9001-196c51cf9110"),
+                            ArtistId = new Guid("4832b825-5713-41ec-95ce-ab04ef1249d5"),
                             Duration = new TimeSpan(0, 0, 3, 0, 0),
                             Price = 129,
                             Title = "Frances Farmer Will Have Her Revenge On Seattle",
@@ -858,9 +861,9 @@ namespace MusicStore.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("4ce8fc19-cae6-4d7a-b51c-21d315eda9d5"),
-                            AlbumId = new Guid("4d9dc852-f291-4f9f-8a1f-0643e2416c3f"),
-                            ArtistId = new Guid("3ce30c3d-c447-4a1e-ae4d-6a084c558caf"),
+                            Id = new Guid("7d30a9b3-e8e8-42fe-a286-a9ff11275046"),
+                            AlbumId = new Guid("73970e5d-b375-4537-9001-196c51cf9110"),
+                            ArtistId = new Guid("4832b825-5713-41ec-95ce-ab04ef1249d5"),
                             Duration = new TimeSpan(0, 0, 4, 0, 0),
                             Price = 129,
                             Title = "Pennyroyal Tea",
@@ -1054,7 +1057,7 @@ namespace MusicStore.Repository.Migrations
                     b.HasOne("MusicStore.Domain.Domain.Order", "Order")
                         .WithMany("BoughtItems")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Order");
                 });
