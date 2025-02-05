@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "BookStore Home";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="text-center">
+            <h2 class="display-4">Welcome to the BookStore page!</h2>
+
+            <div class="mt-4">
+                <a href="@Url.Action("Index", "BookStore")" class="btn btn-primary btn-lg mx-2">View All Books</a>
+                <a href="@Url.Action("BookStores", "BookStore")" class="btn btn-secondary btn-lg mx-2">View All Bookstores</a>
+                <a href="@Url.Action("BooksInStores", "BookStore")" class="btn btn-success btn-lg mx-2">View Books in Stores</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

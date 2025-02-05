@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MusicStore.Domain.Identity;
+using MusicStore.Repository;
 using MusicStore.Repository.Implementation;
 using MusicStore.Repository.Interface;
 using MusicStore.Service.Implementation;
@@ -13,6 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<MusicStoreApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -39,6 +42,7 @@ builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<IArtistService, ArtistService>();
 builder.Services.AddTransient<ITrackService, TrackService>();
 builder.Services.AddTransient<IUserPlaylistService, UserPlaylistService>();
+builder.Services.AddTransient<IBookService, BookService>();
 
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
